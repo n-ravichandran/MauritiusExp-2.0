@@ -12,10 +12,30 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
-
+    var viewController: UIViewController?
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        //Parse Connection
+        Parse.setApplicationId("PMipl2gmbDK4b1UTaBBb9XTU8VADHnpPtiZxoVEo",
+            clientKey: "12DLcXOAgsqNZLn6lp7oYwKsSoqWPNdi3WjDJ6T2")
+        
+        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        
+        let mainVC = MainViewController()
+        let rearVC = RearViewController()
+        
+        let frontNavController = UINavigationController(rootViewController: mainVC)
+        let rearNavController = UINavigationController(rootViewController: rearVC)
+        
+        let revealVC: SWRevealViewController = SWRevealViewController(rearViewController: rearNavController, frontViewController: frontNavController)
+        self.viewController = revealVC
+        
+        self.window?.rootViewController = self.viewController
+        self.window?.makeKeyAndVisible()
+        
+        
         return true
     }
 

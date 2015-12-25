@@ -748,6 +748,10 @@ const int FrontViewPositionNone = 0xff;
     return [super supportedInterfaceOrientations];
 }
 
+//Added by Niranjan for testing
+-(BOOL) shouldAutorotate {
+    return NO;
+}
 
 #pragma mark - Public methods and property accessors
 

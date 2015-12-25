@@ -10,6 +10,7 @@ import Foundation
 
 struct Category {
     
+    let objectId: String?
     let name: String?
     let position: Int?
     let lattitude: String?
@@ -22,7 +23,9 @@ struct Category {
     let directChild: Bool?
     let hasChild: Bool?
     
-    init(categoryObject: PFObject){
+    init(categoryObject: PFObject) {
+        
+        self.objectId = categoryObject.objectId
         self.name = categoryObject["CategoryName"] as? String
         self.position = categoryObject["position"] as? Int
         self.lattitude = categoryObject["lattitude"] as? String
@@ -35,4 +38,5 @@ struct Category {
         self.hasChild = categoryObject["hasChild"] as? Bool
         self.directChild = categoryObject["directchild"] as? Bool
     }
+    
 }

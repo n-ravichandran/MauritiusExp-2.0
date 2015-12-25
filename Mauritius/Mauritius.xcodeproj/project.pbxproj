@@ -33,6 +33,7 @@
 		42AA1A751C28A18E004174CA /* ImageCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42AA1A731C28A18E004174CA /* ImageCollectionCell.xib */; };
 		42AA1A771C28C332004174CA /* ParseFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AA1A761C28C332004174CA /* ParseFetcher.swift */; };
 		42AA1A791C28D98F004174CA /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AA1A781C28D98F004174CA /* CategoryModel.swift */; };
+		42AA1A871C2CA298004174CA /* BeachModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AA1A861C2CA298004174CA /* BeachModel.swift */; };
 		4644328C4284401130156407 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C7439ABA1E4A649BD79D01F /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -67,6 +68,7 @@
 		42AA1A731C28A18E004174CA /* ImageCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageCollectionCell.xib; sourceTree = "<group>"; };
 		42AA1A761C28C332004174CA /* ParseFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseFetcher.swift; sourceTree = "<group>"; };
 		42AA1A781C28D98F004174CA /* CategoryModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
+		42AA1A861C2CA298004174CA /* BeachModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeachModel.swift; sourceTree = "<group>"; };
 		5C7439ABA1E4A649BD79D01F /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC0805694B81CDAAE6D7ABC6 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -176,6 +178,7 @@
 		42AA1A3A1C239C79004174CA /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				42AA1A861C2CA298004174CA /* BeachModel.swift */,
 				42AA1A781C28D98F004174CA /* CategoryModel.swift */,
 			);
 			name = Model;
@@ -343,6 +346,7 @@
 				42AA1A621C276BD3004174CA /* MenuTableCell.swift in Sources */,
 				42AA1A771C28C332004174CA /* ParseFetcher.swift in Sources */,
 				42AA1A661C277779004174CA /* RearViewController.swift in Sources */,
+				42AA1A871C2CA298004174CA /* BeachModel.swift in Sources */,
 				42AA1A261C239C21004174CA /* AppDelegate.swift in Sources */,
 				42AA1A581C272ECC004174CA /* UltravisualLayout.swift in Sources */,
 				42AA1A711C289E02004174CA /* MainViewController.swift in Sources */,

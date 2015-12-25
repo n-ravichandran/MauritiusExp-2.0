@@ -37,7 +37,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
-                <color key="backgroundColor" red="0.18186811576766793" green="0.18504272053625376" blue="0.22411616166565662" alpha="1" colorSpace="calibratedRGB"/>
+                <color key="backgroundColor" red="0.1764705882" green="0.1843137255" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                 <constraints>
                     <constraint firstItem="TmM-ag-0Vi" firstAttribute="leading" secondItem="tp2-fm-B6I" secondAttribute="trailing" constant="8" id="TwK-iA-T4b"/>
                     <constraint firstAttribute="trailing" secondItem="TmM-ag-0Vi" secondAttribute="trailing" constant="8" id="WpF-xg-Mu3"/>
@@ -46,6 +46,10 @@
                     <constraint firstItem="tp2-fm-B6I" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="uwZ-DX-0be"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="menuIcon" destination="tp2-fm-B6I" id="mev-wO-l5a"/>
+                <outlet property="menuLabel" destination="TmM-ag-0Vi" id="aXa-0H-LG1"/>
+            </connections>
             <point key="canvasLocation" x="483" y="358.5"/>
         </tableViewCell>
     </objects>

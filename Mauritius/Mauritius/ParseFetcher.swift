@@ -10,10 +10,12 @@ import Foundation
 
 class ParseFetcher {
     
-    class func fetchCategories(completion: (result: [Category])-> Void){
+    
+    //Fetching Categories
+    class func fetchCategories(values: [Int], completion: (result: [Category])-> Void){
         var categories = [Category]()
         let query = PFQuery(className: "Category")
-        query.whereKey("Level", containedIn: [1, 2])
+        query.whereKey("Level", containedIn: values)
         query.findObjectsInBackgroundWithBlock { (fetchedObjects, fetchError) -> Void in
             
             if fetchError == nil {
@@ -23,6 +25,36 @@ class ParseFetcher {
                     }
                 }
                 completion(result: categories)
+            }
+        }
+    }
+    
+    class func fetchBeaches(superParentId: String, completion: (result: [Beach]) -> Void) {
+        var beaches = [Beach]()
+        let query = PFQuery(className: "Beach")
+        query.whereKey("SuperParentId", equalTo: superParentId)
+        query.findObjectsInBackgroundWithBlock { (responseObjects, responseError) -> Void in
+            
+            if responseError == nil {
+                
+                if let objects = responseObjects {
+                    for item in objects {
+                        beaches.append(Beach(parseObject: item))
+                    }
+                }
+                completion(result: beaches)
+            }
+        }
+        
+    }
+    
+    class func fetchImageData(imageFile: PFFile, completion: (result: NSData) -> Void) {
+        imageFile.getDataInBackgroundWithBlock { (responseData, responseError) -> Void in
+            
+            if responseData != nil {
+                if let imageData = responseData {
+                    completion(result: imageData)
+                }
             }
         }
     }

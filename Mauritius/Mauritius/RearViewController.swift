@@ -9,15 +9,54 @@
 import UIKit
 
 class RearViewController: UITableViewController {
-        
+    
+    var categories: [Category]?
+    var levelOne = [Category]()
+    var levelTwo = [String : [Category]]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.clearsSelectionOnViewWillAppear = false
         self.navigationController?.navigationBarHidden = true
         self.tableView.separatorStyle = .None
+        
+        //Registering custom cell
+        self.tableView.registerNib(UINib(nibName: "MenuTableCell", bundle: nil), forCellReuseIdentifier: "MenuCell")
+        
+        self.getCategories()
     }
     
+    func getCategories() {
+        var levelOneObjects = [String]()
+        ParseFetcher.fetchCategories([1, 2]) { (result) -> Void in
+            if result.count > 0 {
+                self.categories = result
+                
+                for item in self.categories! {
+                    if item.level == 1 {
+                        self.levelOne.append(item)
+                        levelOneObjects.append(item.objectId!)
+                    }
+                }
+                
+                for item in self.categories! {
+                    if levelOneObjects.contains(item.parentID!) {
+                        if var existingArray = self.levelTwo[item.parentID!] {
+                            existingArray.append(item)
+                            self.levelTwo[item.parentID!] = existingArray
+                        }else {
+                            let newArray: [Category] = [item]
+                            self.levelTwo[item.parentID!] = newArray
+                        }
+                    }
+                }
+                
+            }
+            self.tableView.reloadData()
+        }
+    }
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -25,26 +64,42 @@ class RearViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
-
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return levelOne.count
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        if let objects = levelTwo[levelOne[section].objectId!] {
+            return objects.count
+        }else {
+            return 0
+        }
+    }
+    
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return levelOne[section].name
+    }
+    
+    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
+    }
+    
+    override func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        
+        let header = view as! UITableViewHeaderFooterView
+        header.contentView.backgroundColor = UIColor(red: 38/255, green: 40/255, blue: 43/255, alpha: 1.0)
+        header.textLabel?.textColor = UIColor.whiteColor()
+        header.textLabel?.font = UIFont(name: "HelveticaNeue", size: (header.textLabel?.font?.pointSize)!)
     }
 
-    /*
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
-
-        // Configure the cell...
-
+        let cell = tableView.dequeueReusableCellWithIdentifier("MenuCell", forIndexPath: indexPath) as! MenuTableCell
+        let objects = levelTwo[levelOne[indexPath.section].objectId!]
+        cell.menuLabel.text = objects![indexPath.row].name
         return cell
     }
-    */
+
 
     /*
     // Override to support conditional editing of the table view.

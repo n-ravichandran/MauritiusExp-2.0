@@ -4,6 +4,11 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="HelveticaNeue.ttc">
+            <string>HelveticaNeue</string>
+        </mutableArray>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -19,16 +24,55 @@
                             <constraint firstAttribute="height" constant="280" id="fzn-Xe-xwq"/>
                         </constraints>
                     </imageView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Whh-xD-xLt">
+                        <rect key="frame" x="0.0" y="90" width="298" height="100"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="27d-y4-sGc">
+                                <rect key="frame" x="15" y="39" width="268" height="22"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <size key="shadowOffset" width="1" height="1"/>
+                            </label>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="27d-y4-sGc" secondAttribute="bottom" constant="10" id="GGv-Uf-NoB"/>
+                            <constraint firstItem="27d-y4-sGc" firstAttribute="centerY" secondItem="Whh-xD-xLt" secondAttribute="centerY" id="N3b-aU-4d4"/>
+                            <constraint firstAttribute="height" constant="100" id="RyP-fv-RSW"/>
+                            <constraint firstItem="27d-y4-sGc" firstAttribute="centerX" secondItem="Whh-xD-xLt" secondAttribute="centerX" id="XPl-Ot-KRt"/>
+                            <constraint firstItem="27d-y4-sGc" firstAttribute="centerY" secondItem="Whh-xD-xLt" secondAttribute="centerY" id="ae9-VK-hRC"/>
+                            <constraint firstAttribute="trailing" secondItem="27d-y4-sGc" secondAttribute="trailing" constant="15" id="lVv-Rx-goa"/>
+                            <constraint firstItem="27d-y4-sGc" firstAttribute="leading" secondItem="Whh-xD-xLt" secondAttribute="leading" constant="15" id="pz2-hu-kny"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="GGv-Uf-NoB"/>
+                                <exclude reference="N3b-aU-4d4"/>
+                            </mask>
+                        </variation>
+                    </view>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="Whh-xD-xLt" secondAttribute="trailing" id="7eG-4t-RIv"/>
+                <constraint firstAttribute="bottom" secondItem="Whh-xD-xLt" secondAttribute="bottom" id="DDG-Uk-StE"/>
+                <constraint firstItem="Whh-xD-xLt" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="DJh-D5-Dw4"/>
                 <constraint firstItem="eeP-he-X1v" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="F1P-sL-RTr"/>
                 <constraint firstItem="eeP-he-X1v" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="GKM-kx-LN8"/>
+                <constraint firstItem="Whh-xD-xLt" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="WB1-KU-GOq"/>
+                <constraint firstItem="Whh-xD-xLt" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="ZsB-NO-K7H"/>
                 <constraint firstAttribute="trailing" secondItem="eeP-he-X1v" secondAttribute="trailing" id="gYU-Ft-WIP"/>
             </constraints>
             <size key="customSize" width="298" height="280"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="DDG-Uk-StE"/>
+                </mask>
+            </variation>
             <connections>
+                <outlet property="cellTitle" destination="27d-y4-sGc" id="ZAt-zs-0CO"/>
                 <outlet property="coverImageView" destination="eeP-he-X1v" id="zq1-3b-2cs"/>
             </connections>
             <point key="canvasLocation" x="456" y="412"/>

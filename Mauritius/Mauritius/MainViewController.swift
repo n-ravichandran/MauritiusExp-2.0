@@ -10,7 +10,11 @@ import UIKit
 
 class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
+    var beachDict = [String: [Beach]]()
+    var beachArray = [String]()
+    
     var collectionView: UICollectionView!
+    var pid = "ahOcEDJQSr"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,31 +32,57 @@ class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
         
         if self.revealViewController() != nil {
             self.view.addGestureRecognizer(revealViewController().panGestureRecognizer())
+            self.revealViewController().rearViewRevealWidth = 290
         }
         
-        getCategories()
-
+        self.getImages()
     }
     
-    func getCategories() {
-        ParseFetcher.fetchCategories { (categories) -> Void in
-            if categories.count > 0 {
-                print(categories)
+    
+    func getImages() {
+        ParseFetcher.fetchBeaches(pid) { (result) -> Void in
+            print(result.count)
+            if result.count > 0 {
+                for item in result {
+                    if var existingArray = self.beachDict[item.linkId!] {
+                        existingArray.append(item)
+                        self.beachDict[item.linkId!] = existingArray
+                    } else {
+                        let newArray: [Beach] = [item]
+                        self.beachDict[item.linkId!] = newArray
+                        self.beachArray.append(item.linkId!)
+                    }
+                }
+                self.collectionView.reloadData()
             }
+            
         }
     }
+    
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
-    }
+        return beachDict.count
+  }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! ImageCollectionCell
-        cell.currentImage = "Tutorial.jpg"
+        if let currentItem = beachDict[beachArray[indexPath.item]] {
+            let title = currentItem.first?.description
+            let index = title!.rangeOfString("-")?.startIndex
+            if let value = index {
+                cell.cellTitle.text = title?.substringFromIndex(value.successor())
+            }else {
+                cell.cellTitle.text = currentItem.first?.description
+            }
+            //Fetch image from parse
+            ParseFetcher.fetchImageData((currentItem.first?.imageFile)!, completion: { (result) -> Void in
+                cell.currentImage = result
+            })
+        }
         return cell
     }
 

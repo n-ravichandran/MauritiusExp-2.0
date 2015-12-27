@@ -28,8 +28,11 @@
                         <rect key="frame" x="0.0" y="90" width="298" height="100"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="27d-y4-sGc">
-                                <rect key="frame" x="15" y="39" width="268" height="22"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
+                                <rect key="frame" x="15" y="36.5" width="268" height="27"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="27" id="Iqs-un-KfN"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                                 <color key="shadowColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -52,15 +55,30 @@
                             </mask>
                         </variation>
                     </view>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1fR-Z3-R5i">
+                        <rect key="frame" x="99" y="155" width="100" height="25"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="25" id="LcK-zY-Gfy"/>
+                            <constraint firstAttribute="width" constant="100" id="ZXA-GY-NiW"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
+                        <state key="normal" title="View More" backgroundImage="buttonBg">
+                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                    </button>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
+                <constraint firstAttribute="bottom" secondItem="1fR-Z3-R5i" secondAttribute="bottom" constant="98" id="139-5V-sCE"/>
                 <constraint firstAttribute="trailing" secondItem="Whh-xD-xLt" secondAttribute="trailing" id="7eG-4t-RIv"/>
                 <constraint firstAttribute="bottom" secondItem="Whh-xD-xLt" secondAttribute="bottom" id="DDG-Uk-StE"/>
                 <constraint firstItem="Whh-xD-xLt" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="DJh-D5-Dw4"/>
                 <constraint firstItem="eeP-he-X1v" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="F1P-sL-RTr"/>
+                <constraint firstAttribute="bottom" secondItem="1fR-Z3-R5i" secondAttribute="bottom" constant="100" id="Ff8-4w-xCT"/>
                 <constraint firstItem="eeP-he-X1v" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="GKM-kx-LN8"/>
+                <constraint firstItem="1fR-Z3-R5i" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="TXc-fK-Ev0"/>
+                <constraint firstItem="1fR-Z3-R5i" firstAttribute="top" secondItem="27d-y4-sGc" secondAttribute="bottom" constant="4" id="Uq9-di-Ivp"/>
                 <constraint firstItem="Whh-xD-xLt" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="WB1-KU-GOq"/>
                 <constraint firstItem="Whh-xD-xLt" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="ZsB-NO-K7H"/>
                 <constraint firstAttribute="trailing" secondItem="eeP-he-X1v" secondAttribute="trailing" id="gYU-Ft-WIP"/>
@@ -69,13 +87,19 @@
             <variation key="default">
                 <mask key="constraints">
                     <exclude reference="DDG-Uk-StE"/>
+                    <exclude reference="139-5V-sCE"/>
+                    <exclude reference="Uq9-di-Ivp"/>
                 </mask>
             </variation>
             <connections>
                 <outlet property="cellTitle" destination="27d-y4-sGc" id="ZAt-zs-0CO"/>
                 <outlet property="coverImageView" destination="eeP-he-X1v" id="zq1-3b-2cs"/>
+                <outlet property="viewMoreButton" destination="1fR-Z3-R5i" id="bmL-Ro-apS"/>
             </connections>
             <point key="canvasLocation" x="456" y="412"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="buttonBg" width="128" height="36"/>
+    </resources>
 </document>

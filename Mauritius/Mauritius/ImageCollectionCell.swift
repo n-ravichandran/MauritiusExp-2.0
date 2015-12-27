@@ -12,7 +12,8 @@ class ImageCollectionCell: UICollectionViewCell {
 
     @IBOutlet var coverImageView: UIImageView!
     @IBOutlet var cellTitle: UILabel!
-    
+    @IBOutlet var viewMoreButton: UIButton!
+        
     var currentImage: NSData? {
         didSet {
             if let name = currentImage {
@@ -23,6 +24,8 @@ class ImageCollectionCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.viewMoreButton.layer.cornerRadius = 12
+        
     }
     
     //Focus for the current cell

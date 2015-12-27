@@ -19,6 +19,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>SKPhotoBrowser.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>SWRevealViewController.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -27,22 +32,27 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>3C40AD938D23DF5F8345D23B4D3E1644</key>
+		<key>0EA3CFDD95BA7FBE676EF078FE8AAD72</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>57FEFA14230BEA2555AEEF63565655D9</key>
+		<key>511B536F0DE06D9C3BD65397A91990C0</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>70EA6FDF275C81057F9D093E7BBBBADB</key>
+		<key>5F2D82AD215DAE3AE8DC6E59797E4709</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B53DF583949C0313F8655A28EF6EB07D</key>
+		<key>708E01B006A9F88B3C13711562282B5E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A3E38405FF9A13B12E829AE73A27A7D2</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -27,6 +27,7 @@ class RearViewController: UITableViewController {
         self.getCategories()
     }
     
+    //Fetching level one and two menu items
     func getCategories() {
         var levelOneObjects = [String]()
         ParseFetcher.fetchCategories([1, 2]) { (result) -> Void in
@@ -99,7 +100,32 @@ class RearViewController: UITableViewController {
         cell.menuLabel.text = objects![indexPath.row].name
         return cell
     }
-
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        var newFrontViewController: UINavigationController?
+        let mainVC = MainViewController()
+        if ((indexPath.section == 0) && (indexPath.row == 0)) {
+            
+        }else {
+            let objects = levelTwo[levelOne[indexPath.section].objectId!]
+            mainVC.currentObjectId = objects![indexPath.row].objectId
+            newFrontViewController = UINavigationController(rootViewController: mainVC)
+            revealViewController().pushFrontViewController(newFrontViewController, animated: true)
+        }
+        
+        
+    }
+    
+    override func shouldAutorotate() -> Bool {
+        return false
+    }
+    
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return [UIInterfaceOrientationMask.Portrait, .PortraitUpsideDown]
+    }
+    
+    
+    
 
     /*
     // Override to support conditional editing of the table view.
@@ -146,12 +172,5 @@ class RearViewController: UITableViewController {
     }
     */
     
-    override func shouldAutorotate() -> Bool {
-        return false
-    }
-    
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return [UIInterfaceOrientationMask.Portrait, .PortraitUpsideDown]
-    }
     
 }

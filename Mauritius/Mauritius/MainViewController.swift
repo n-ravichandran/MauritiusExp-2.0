@@ -14,17 +14,19 @@ class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
     var beachArray = [String]()
     
     var collectionView: UICollectionView!
-    var pid = "ahOcEDJQSr"
+    var pid = "ahOcEDJQSr" // default place to be loaded
+    var currentObjectId: String? // Current place for view
+    var selectedObject: [Beach]? // Beach that is currently viewed
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         
         //Setting up collection view
         let layout = UltravisualLayout()
         collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
         collectionView.dataSource = self
         collectionView.delegate = self
+        
         //Registering custom Cell
         self.collectionView.registerNib(UINib(nibName: "ImageCollectionCell", bundle: nil), forCellWithReuseIdentifier: "Cell")
         self.view.addSubview(collectionView)
@@ -33,15 +35,22 @@ class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
         if self.revealViewController() != nil {
             self.view.addGestureRecognizer(revealViewController().panGestureRecognizer())
             self.revealViewController().rearViewRevealWidth = 290
+            let barButtonItem = UIBarButtonItem(image: UIImage(named: "menu.png"), style: .Plain, target: self.revealViewController(), action: "revealToggle:")
+            navigationItem.leftBarButtonItem = barButtonItem
+
         }
         
+        if let id = currentObjectId {
+            pid = id
+        }
+        
+        //Load images from parse
         self.getImages()
     }
     
     
     func getImages() {
         ParseFetcher.fetchBeaches(pid) { (result) -> Void in
-            print(result.count)
             if result.count > 0 {
                 for item in result {
                     if var existingArray = self.beachDict[item.linkId!] {
@@ -53,7 +62,12 @@ class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
                         self.beachArray.append(item.linkId!)
                     }
                 }
-                self.collectionView.reloadData()
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.collectionView.reloadData()
+                })
+                if let firstItem = self.beachArray.first {
+                    self.selectedObject = self.beachDict[firstItem]
+                }
             }
             
         }
@@ -80,9 +94,13 @@ class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
             }
             //Fetch image from parse
             ParseFetcher.fetchImageData((currentItem.first?.imageFile)!, completion: { (result) -> Void in
-                cell.currentImage = result
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    cell.currentImage = result
+                })
+                
             })
         }
+        cell.viewMoreButton.addTarget(self, action: "pushPhotosView", forControlEvents: .TouchUpInside)
         return cell
     }
 
@@ -97,6 +115,16 @@ class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
         if collectionView.contentOffset.y != offset {
             collectionView.setContentOffset(CGPoint(x: 0, y: offset), animated: true)
         }
+        selectedObject = beachDict[beachArray[indexPath.item]]
+        
+    }
+    
+    func pushPhotosView() {
+        let photosVC = PhotosViewController()
+        if let objects = selectedObject {
+            photosVC.currentObjects = objects
+        }
+        self.navigationController?.pushViewController(photosVC, animated: true)
     }
 
     override func shouldAutorotate() -> Bool {

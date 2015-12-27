@@ -34,10 +34,14 @@
 		42AA1A771C28C332004174CA /* ParseFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AA1A761C28C332004174CA /* ParseFetcher.swift */; };
 		42AA1A791C28D98F004174CA /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AA1A781C28D98F004174CA /* CategoryModel.swift */; };
 		42AA1A871C2CA298004174CA /* BeachModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AA1A861C2CA298004174CA /* BeachModel.swift */; };
-		4644328C4284401130156407 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C7439ABA1E4A649BD79D01F /* libPods.a */; };
+		42BF84FA1C2F176900FA49F3 /* PhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42BF84F81C2F176900FA49F3 /* PhotosViewController.swift */; };
+		42BF84FB1C2F176900FA49F3 /* PhotosViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42BF84F91C2F176900FA49F3 /* PhotosViewController.xib */; };
+		42BF84FD1C2F9F8C00FA49F3 /* SKPhotoBrowser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42BF84FC1C2F9F8C00FA49F3 /* SKPhotoBrowser.framework */; };
+		59F0E1FFCCAC6B510A1A1D58 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 145F86E6A457704E4A0AD0C7 /* Pods.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		145F86E6A457704E4A0AD0C7 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		188C979B9E623C6C34724228 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		42AA1A221C239C21004174CA /* Mauritius.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mauritius.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		42AA1A251C239C21004174CA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -69,7 +73,9 @@
 		42AA1A761C28C332004174CA /* ParseFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseFetcher.swift; sourceTree = "<group>"; };
 		42AA1A781C28D98F004174CA /* CategoryModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
 		42AA1A861C2CA298004174CA /* BeachModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeachModel.swift; sourceTree = "<group>"; };
-		5C7439ABA1E4A649BD79D01F /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		42BF84F81C2F176900FA49F3 /* PhotosViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosViewController.swift; sourceTree = "<group>"; };
+		42BF84F91C2F176900FA49F3 /* PhotosViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotosViewController.xib; sourceTree = "<group>"; };
+		42BF84FC1C2F9F8C00FA49F3 /* SKPhotoBrowser.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SKPhotoBrowser.framework; path = "Pods/../build/Debug-iphoneos/SKPhotoBrowser.framework"; sourceTree = "<group>"; };
 		CC0805694B81CDAAE6D7ABC6 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -78,6 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42BF84FD1C2F9F8C00FA49F3 /* SKPhotoBrowser.framework in Frameworks */,
 				42AA1A4E1C24667C004174CA /* libsqlite3.tbd in Frameworks */,
 				42AA1A4C1C246670004174CA /* libz.tbd in Frameworks */,
 				42AA1A4A1C24665B004174CA /* SystemConfiguration.framework in Frameworks */,
@@ -88,7 +95,7 @@
 				42AA1A421C246630004174CA /* CoreLocation.framework in Frameworks */,
 				42AA1A3E1C246620004174CA /* CFNetwork.framework in Frameworks */,
 				42AA1A3C1C246615004174CA /* AudioToolbox.framework in Frameworks */,
-				4644328C4284401130156407 /* libPods.a in Frameworks */,
+				59F0E1FFCCAC6B510A1A1D58 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,6 +105,7 @@
 		10A16ED7A12E05E49533F0EA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				42BF84FC1C2F9F8C00FA49F3 /* SKPhotoBrowser.framework */,
 				42AA1A4D1C24667C004174CA /* libsqlite3.tbd */,
 				42AA1A4B1C246670004174CA /* libz.tbd */,
 				42AA1A491C24665B004174CA /* SystemConfiguration.framework */,
@@ -108,7 +116,7 @@
 				42AA1A401C246630004174CA /* CoreLocation.framework */,
 				42AA1A3D1C246620004174CA /* CFNetwork.framework */,
 				42AA1A3B1C246615004174CA /* AudioToolbox.framework */,
-				5C7439ABA1E4A649BD79D01F /* libPods.a */,
+				145F86E6A457704E4A0AD0C7 /* Pods.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -149,6 +157,7 @@
 			children = (
 				42AA1A761C28C332004174CA /* ParseFetcher.swift */,
 				42AA1A701C289E02004174CA /* MainViewController.swift */,
+				42BF84F81C2F176900FA49F3 /* PhotosViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -192,6 +201,7 @@
 				42AA1A611C276BD3004174CA /* MenuTableCell.xib */,
 				42AA1A651C277779004174CA /* RearViewController.xib */,
 				42AA1A731C28A18E004174CA /* ImageCollectionCell.xib */,
+				42BF84F91C2F176900FA49F3 /* PhotosViewController.xib */,
 			);
 			name = "Storyboard&Xibs";
 			sourceTree = "<group>";
@@ -279,6 +289,7 @@
 				42AA1A301C239C21004174CA /* LaunchScreen.storyboard in Resources */,
 				42AA1A2D1C239C21004174CA /* Assets.xcassets in Resources */,
 				42AA1A671C277779004174CA /* RearViewController.xib in Resources */,
+				42BF84FB1C2F176900FA49F3 /* PhotosViewController.xib in Resources */,
 				42AA1A2B1C239C21004174CA /* Main.storyboard in Resources */,
 				42AA1A631C276BD3004174CA /* MenuTableCell.xib in Resources */,
 			);
@@ -348,6 +359,7 @@
 				42AA1A661C277779004174CA /* RearViewController.swift in Sources */,
 				42AA1A871C2CA298004174CA /* BeachModel.swift in Sources */,
 				42AA1A261C239C21004174CA /* AppDelegate.swift in Sources */,
+				42BF84FA1C2F176900FA49F3 /* PhotosViewController.swift in Sources */,
 				42AA1A581C272ECC004174CA /* UltravisualLayout.swift in Sources */,
 				42AA1A711C289E02004174CA /* MainViewController.swift in Sources */,
 			);
@@ -463,6 +475,10 @@
 			baseConfigurationReference = CC0805694B81CDAAE6D7ABC6 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
 				INFOPLIST_FILE = Mauritius/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.adavers.Mauritius;
@@ -477,6 +493,10 @@
 			baseConfigurationReference = 188C979B9E623C6C34724228 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
 				INFOPLIST_FILE = Mauritius/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.adavers.Mauritius;

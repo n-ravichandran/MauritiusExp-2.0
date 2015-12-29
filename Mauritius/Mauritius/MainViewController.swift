@@ -26,7 +26,7 @@ class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
         collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
         collectionView.dataSource = self
         collectionView.delegate = self
-        
+        collectionView.contentInset = UIEdgeInsets(top: 55, left: 0, bottom: 0, right: 0)
         //Registering custom Cell
         self.collectionView.registerNib(UINib(nibName: "ImageCollectionCell", bundle: nil), forCellWithReuseIdentifier: "Cell")
         self.view.addSubview(collectionView)
@@ -44,8 +44,12 @@ class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
             pid = id
         }
         
-        //Load images from parse
-        self.getImages()
+        if pid == " " {
+            self.errorMessageView()
+        }else {
+            //Load images from parse
+            self.getImages()
+        }
     }
     
     
@@ -92,15 +96,21 @@ class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
             }else {
                 cell.cellTitle.text = currentItem.first?.description
             }
+            
             //Fetch image from parse
-            ParseFetcher.fetchImageData((currentItem.first?.imageFile)!, completion: { (result) -> Void in
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    cell.currentImage = result
+            if let imageFile = currentItem.first?.imageFile {
+                imageFile.getDataInBackgroundWithBlock({ (imageData, error) -> Void in
+                    if error == nil {
+                        if let result = imageData {
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                cell.currentImage = result
+                            })
+
+                        }
+                    }
                 })
-                
-            })
+            }
         }
-        cell.viewMoreButton.addTarget(self, action: "pushPhotosView", forControlEvents: .TouchUpInside)
         return cell
     }
 
@@ -110,22 +120,28 @@ class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let layout = self.collectionView.collectionViewLayout as! UltravisualLayout
-        let offset = layout.dragOffset * CGFloat(indexPath.item)
-        if collectionView.contentOffset.y != offset {
-            collectionView.setContentOffset(CGPoint(x: 0, y: offset), animated: true)
+        UIView.animateWithDuration(0.1, animations: { () -> Void in
+            
+            let layout = self.collectionView.collectionViewLayout as! UltravisualLayout
+            let offset = layout.dragOffset * CGFloat(indexPath.item)
+            if collectionView.contentOffset.y != offset {
+                collectionView.setContentOffset(CGPoint(x: 0, y: offset), animated: true)
+            }
+            self.selectedObject = self.beachDict[self.beachArray[indexPath.item]]
+            
+            }) { (isComplete) -> Void in
+                if isComplete {
+                    //Push Detailed view
+                    let photosVC = PhotosViewController()
+                    if let objects = self.selectedObject {
+                        photosVC.currentObjects = objects
+                    }
+                    self.navigationController?.pushViewController(photosVC, animated: true)
+                }
         }
-        selectedObject = beachDict[beachArray[indexPath.item]]
         
     }
-    
-    func pushPhotosView() {
-        let photosVC = PhotosViewController()
-        if let objects = selectedObject {
-            photosVC.currentObjects = objects
-        }
-        self.navigationController?.pushViewController(photosVC, animated: true)
-    }
+
 
     override func shouldAutorotate() -> Bool {
         return false
@@ -133,6 +149,25 @@ class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
     
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
         return [UIInterfaceOrientationMask.Portrait, .PortraitUpsideDown]
+    }
+    
+    func errorMessageView() {
+        let messageView = UIView(frame: UIScreen.mainScreen().bounds)
+        messageView.backgroundColor = UIColor(red: 234/255, green: 234/255, blue: 234/255, alpha: 1.0)
+        let messageLabel = UILabel(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 21))
+        messageLabel.center = messageView.center
+        messageLabel.text = "You do not have any favourites yet!"
+        messageLabel.textColor = UIColor.darkGrayColor()
+        messageLabel.textAlignment = .Center
+        let icon = UIImageView(frame: CGRectMake(0, 0, 45, 45))
+        icon.image = UIImage(named: "like-filled.png")
+        icon.center.x = messageView.center.x
+        icon.center.y = messageView.center.y - 40
+        messageView.addSubview(icon)
+        messageView.addSubview(messageLabel)
+        
+        self.view.addSubview(messageView)
+        
     }
 
 }

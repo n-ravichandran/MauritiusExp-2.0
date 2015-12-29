@@ -25,8 +25,8 @@ class ParseFetcher {
                         categories.append(Category(categoryObject: item))
                     }
                 }
-                completion(result: categories)
             }
+            completion(result: categories)
         }
     }
     
@@ -43,20 +43,9 @@ class ParseFetcher {
                         beaches.append(Beach(parseObject: item))
                     }
                 }
-                completion(result: beaches)
             }
+            completion(result: beaches)
         }
         
-    }
-    
-    class func fetchImageData(imageFile: PFFile, completion: (result: NSData) -> Void) {
-        imageFile.getDataInBackgroundWithBlock { (responseData, responseError) -> Void in
-            
-            if responseData != nil {
-                if let imageData = responseData {
-                    completion(result: imageData)
-                }
-            }
-        }
-    }
+    }    
 }

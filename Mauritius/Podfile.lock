@@ -4,16 +4,19 @@ PODS:
     - Bolts/Tasks (~> 1.5)
   - SKPhotoBrowser (1.0.1)
   - SWRevealViewController (2.3.0)
+  - UNAlertView (0.1.1)
 
 DEPENDENCIES:
   - Parse
   - SKPhotoBrowser
   - SWRevealViewController (~> 2.3)
+  - UNAlertView (~> 0.1)
 
 SPEC CHECKSUMS:
   Bolts: 722ab9a4f8b50fc4ed1b9998a5a7a2b3f16d80b4
   Parse: 886af46a0a677402f6374bb97ac212e795f70afe
   SKPhotoBrowser: de1a81662d701bebae25647bcdf5d377c9e6f0a8
   SWRevealViewController: 6d3fd97f70112fd7cef9de14df4260eacce4c63a
+  UNAlertView: fc58ca04357a5e8e7e1eb2803fc8152a89e9ce39
 
 COCOAPODS: 0.39.0

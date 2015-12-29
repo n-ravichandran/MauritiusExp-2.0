@@ -83,7 +83,7 @@ class RearViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 40
+        return 50
     }
     
     override func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
@@ -92,12 +92,18 @@ class RearViewController: UITableViewController {
         header.contentView.backgroundColor = UIColor(red: 38/255, green: 40/255, blue: 43/255, alpha: 1.0)
         header.textLabel?.textColor = UIColor.whiteColor()
         header.textLabel?.font = UIFont(name: "HelveticaNeue", size: (header.textLabel?.font?.pointSize)!)
+        if section == 2 {
+            header.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "favouritesPage"))
+        }else if section == 3 {
+            header.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "settingsPage"))
+        }
     }
-
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("MenuCell", forIndexPath: indexPath) as! MenuTableCell
         let objects = levelTwo[levelOne[indexPath.section].objectId!]
         cell.menuLabel.text = objects![indexPath.row].name
+        cell.menuIcon.image = UIImage(named: objects![indexPath.row].iconName!)
         return cell
     }
     
@@ -124,7 +130,22 @@ class RearViewController: UITableViewController {
         return [UIInterfaceOrientationMask.Portrait, .PortraitUpsideDown]
     }
     
+    //Settings Page
+    func settingsPage() {
+        
+        let settingsVC = SettingsViewController()
+        revealViewController().pushFrontViewController(UINavigationController(rootViewController: settingsVC), animated: true)
+    }
     
+    //Favourites page
+    func favouritesPage() {
+        let mainVC = MainViewController()
+        mainVC.title = "Favourites"
+        mainVC.currentObjectId = " "
+        let newFrontViewController = UINavigationController(rootViewController: mainVC)
+        revealViewController().pushFrontViewController(newFrontViewController, animated: true)
+    }
+
     
 
     /*

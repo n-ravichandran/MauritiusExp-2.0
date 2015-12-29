@@ -30,3 +30,16 @@ struct Beach {
     }
     
 }
+
+//For Object comparision
+protocol Equatable {
+    func ==(a: Beach, b: Beach) -> Bool
+}
+
+extension Beach: Equatable {}
+
+func ==(a: Beach, b: Beach) -> Bool {
+    
+        return a == b
+}
+

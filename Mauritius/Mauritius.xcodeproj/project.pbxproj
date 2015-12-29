@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		420F35561C30884B00864B22 /* SwiftLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420F35551C30884B00864B22 /* SwiftLoader.swift */; };
+		420F355E1C30986900864B22 /* UNAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420F355D1C30986900864B22 /* UNAlertView.swift */; };
+		420F35611C30C5AF00864B22 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420F355F1C30C5AF00864B22 /* SettingsViewController.swift */; };
+		420F35621C30C5AF00864B22 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 420F35601C30C5AF00864B22 /* SettingsViewController.xib */; };
+		420F35651C31E25E00864B22 /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420F35631C31E25E00864B22 /* SettingsTableViewCell.swift */; };
+		420F35661C31E25E00864B22 /* SettingsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 420F35641C31E25E00864B22 /* SettingsTableViewCell.xib */; };
 		42AA1A261C239C21004174CA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AA1A251C239C21004174CA /* AppDelegate.swift */; };
 		42AA1A2B1C239C21004174CA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42AA1A291C239C21004174CA /* Main.storyboard */; };
 		42AA1A2D1C239C21004174CA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 42AA1A2C1C239C21004174CA /* Assets.xcassets */; };
@@ -43,6 +49,16 @@
 /* Begin PBXFileReference section */
 		145F86E6A457704E4A0AD0C7 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		188C979B9E623C6C34724228 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		420F35531C30873C00864B22 /* SwiftLoader.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftLoader.framework; path = "Pods/../build/Debug-iphoneos/SwiftLoader.framework"; sourceTree = "<group>"; };
+		420F35551C30884B00864B22 /* SwiftLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftLoader.swift; sourceTree = "<group>"; };
+		420F35571C30950B00864B22 /* UNAlertView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UNAlertView.framework; path = "Pods/../build/Debug-iphoneos/UNAlertView.framework"; sourceTree = "<group>"; };
+		420F35591C3096BC00864B22 /* UNAlertView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UNAlertView.framework; path = "Pods/../build/Debug-iphoneos/UNAlertView.framework"; sourceTree = "<group>"; };
+		420F355B1C3097DC00864B22 /* UNAlertView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UNAlertView.framework; path = "Pods/../build/Debug-iphoneos/UNAlertView.framework"; sourceTree = "<group>"; };
+		420F355D1C30986900864B22 /* UNAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UNAlertView.swift; sourceTree = "<group>"; };
+		420F355F1C30C5AF00864B22 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		420F35601C30C5AF00864B22 /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
+		420F35631C31E25E00864B22 /* SettingsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewCell.swift; sourceTree = "<group>"; };
+		420F35641C31E25E00864B22 /* SettingsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsTableViewCell.xib; sourceTree = "<group>"; };
 		42AA1A221C239C21004174CA /* Mauritius.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mauritius.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		42AA1A251C239C21004174CA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		42AA1A2A1C239C21004174CA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -105,6 +121,10 @@
 		10A16ED7A12E05E49533F0EA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				420F355B1C3097DC00864B22 /* UNAlertView.framework */,
+				420F35591C3096BC00864B22 /* UNAlertView.framework */,
+				420F35571C30950B00864B22 /* UNAlertView.framework */,
+				420F35531C30873C00864B22 /* SwiftLoader.framework */,
 				42BF84FC1C2F9F8C00FA49F3 /* SKPhotoBrowser.framework */,
 				42AA1A4D1C24667C004174CA /* libsqlite3.tbd */,
 				42AA1A4B1C246670004174CA /* libz.tbd */,
@@ -155,6 +175,7 @@
 		42AA1A371C239C35004174CA /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				420F355F1C30C5AF00864B22 /* SettingsViewController.swift */,
 				42AA1A761C28C332004174CA /* ParseFetcher.swift */,
 				42AA1A701C289E02004174CA /* MainViewController.swift */,
 				42BF84F81C2F176900FA49F3 /* PhotosViewController.swift */,
@@ -165,6 +186,7 @@
 		42AA1A381C239C55004174CA /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				420F35631C31E25E00864B22 /* SettingsTableViewCell.swift */,
 				42AA1A721C28A18E004174CA /* ImageCollectionCell.swift */,
 				42AA1A641C277779004174CA /* RearViewController.swift */,
 				42AA1A601C276BD3004174CA /* MenuTableCell.swift */,
@@ -189,6 +211,8 @@
 			children = (
 				42AA1A861C2CA298004174CA /* BeachModel.swift */,
 				42AA1A781C28D98F004174CA /* CategoryModel.swift */,
+				420F35551C30884B00864B22 /* SwiftLoader.swift */,
+				420F355D1C30986900864B22 /* UNAlertView.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -202,6 +226,8 @@
 				42AA1A651C277779004174CA /* RearViewController.xib */,
 				42AA1A731C28A18E004174CA /* ImageCollectionCell.xib */,
 				42BF84F91C2F176900FA49F3 /* PhotosViewController.xib */,
+				420F35641C31E25E00864B22 /* SettingsTableViewCell.xib */,
+				420F35601C30C5AF00864B22 /* SettingsViewController.xib */,
 			);
 			name = "Storyboard&Xibs";
 			sourceTree = "<group>";
@@ -288,6 +314,8 @@
 				42AA1A751C28A18E004174CA /* ImageCollectionCell.xib in Resources */,
 				42AA1A301C239C21004174CA /* LaunchScreen.storyboard in Resources */,
 				42AA1A2D1C239C21004174CA /* Assets.xcassets in Resources */,
+				420F35661C31E25E00864B22 /* SettingsTableViewCell.xib in Resources */,
+				420F35621C30C5AF00864B22 /* SettingsViewController.xib in Resources */,
 				42AA1A671C277779004174CA /* RearViewController.xib in Resources */,
 				42BF84FB1C2F176900FA49F3 /* PhotosViewController.xib in Resources */,
 				42AA1A2B1C239C21004174CA /* Main.storyboard in Resources */,
@@ -352,11 +380,15 @@
 			files = (
 				42AA1A5D1C27352F004174CA /* UIColor+Palette.swift in Sources */,
 				42AA1A741C28A18E004174CA /* ImageCollectionCell.swift in Sources */,
+				420F355E1C30986900864B22 /* UNAlertView.swift in Sources */,
 				42AA1A5A1C273051004174CA /* UIImage+Decompression.swift in Sources */,
 				42AA1A791C28D98F004174CA /* CategoryModel.swift in Sources */,
+				420F35561C30884B00864B22 /* SwiftLoader.swift in Sources */,
 				42AA1A621C276BD3004174CA /* MenuTableCell.swift in Sources */,
 				42AA1A771C28C332004174CA /* ParseFetcher.swift in Sources */,
+				420F35611C30C5AF00864B22 /* SettingsViewController.swift in Sources */,
 				42AA1A661C277779004174CA /* RearViewController.swift in Sources */,
+				420F35651C31E25E00864B22 /* SettingsTableViewCell.swift in Sources */,
 				42AA1A871C2CA298004174CA /* BeachModel.swift in Sources */,
 				42AA1A261C239C21004174CA /* AppDelegate.swift in Sources */,
 				42BF84FA1C2F176900FA49F3 /* PhotosViewController.swift in Sources */,

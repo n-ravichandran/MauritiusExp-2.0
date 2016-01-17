@@ -20,6 +20,7 @@ class SettingsTableViewCell: UITableViewCell, UITextFieldDelegate {
         self.cellTextField.rightView = paddingView
         self.cellTextField.rightViewMode = UITextFieldViewMode.Always
         self.cellTextField.delegate = self
+        self.selectionStyle = .None
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

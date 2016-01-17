@@ -43,6 +43,11 @@
 		42BF84FA1C2F176900FA49F3 /* PhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42BF84F81C2F176900FA49F3 /* PhotosViewController.swift */; };
 		42BF84FB1C2F176900FA49F3 /* PhotosViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42BF84F91C2F176900FA49F3 /* PhotosViewController.xib */; };
 		42BF84FD1C2F9F8C00FA49F3 /* SKPhotoBrowser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42BF84FC1C2F9F8C00FA49F3 /* SKPhotoBrowser.framework */; };
+		42FA1C181C49ADAC0019C48A /* SettingsPage.plist in Resources */ = {isa = PBXBuildFile; fileRef = 42FA1C171C49ADAC0019C48A /* SettingsPage.plist */; };
+		42FA1C1B1C49F23F0019C48A /* LanguageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FA1C191C49F23F0019C48A /* LanguageCell.swift */; };
+		42FA1C1C1C49F23F0019C48A /* LanguageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42FA1C1A1C49F23F0019C48A /* LanguageCell.xib */; };
+		42FA1C1E1C49F5AB0019C48A /* LanguageLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FA1C1D1C49F5AB0019C48A /* LanguageLabel.swift */; };
+		42FA1C201C4AB9D70019C48A /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FA1C1F1C4AB9D70019C48A /* Reachability.swift */; };
 		59F0E1FFCCAC6B510A1A1D58 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 145F86E6A457704E4A0AD0C7 /* Pods.framework */; };
 /* End PBXBuildFile section */
 
@@ -92,6 +97,11 @@
 		42BF84F81C2F176900FA49F3 /* PhotosViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosViewController.swift; sourceTree = "<group>"; };
 		42BF84F91C2F176900FA49F3 /* PhotosViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotosViewController.xib; sourceTree = "<group>"; };
 		42BF84FC1C2F9F8C00FA49F3 /* SKPhotoBrowser.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SKPhotoBrowser.framework; path = "Pods/../build/Debug-iphoneos/SKPhotoBrowser.framework"; sourceTree = "<group>"; };
+		42FA1C171C49ADAC0019C48A /* SettingsPage.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SettingsPage.plist; sourceTree = "<group>"; };
+		42FA1C191C49F23F0019C48A /* LanguageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LanguageCell.swift; sourceTree = "<group>"; };
+		42FA1C1A1C49F23F0019C48A /* LanguageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LanguageCell.xib; sourceTree = "<group>"; };
+		42FA1C1D1C49F5AB0019C48A /* LanguageLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LanguageLabel.swift; sourceTree = "<group>"; };
+		42FA1C1F1C4AB9D70019C48A /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		CC0805694B81CDAAE6D7ABC6 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -162,7 +172,7 @@
 		42AA1A241C239C21004174CA /* Mauritius */ = {
 			isa = PBXGroup;
 			children = (
-				42AA1A5B1C273056004174CA /* Extension */,
+				42AA1A5B1C273056004174CA /* Others */,
 				42AA1A501C272680004174CA /* Storyboard&Xibs */,
 				42AA1A381C239C55004174CA /* Views */,
 				42AA1A3A1C239C79004174CA /* Model */,
@@ -186,6 +196,8 @@
 		42AA1A381C239C55004174CA /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				42FA1C1D1C49F5AB0019C48A /* LanguageLabel.swift */,
+				42FA1C191C49F23F0019C48A /* LanguageCell.swift */,
 				420F35631C31E25E00864B22 /* SettingsTableViewCell.swift */,
 				42AA1A721C28A18E004174CA /* ImageCollectionCell.swift */,
 				42AA1A641C277779004174CA /* RearViewController.swift */,
@@ -198,6 +210,7 @@
 		42AA1A391C239C6A004174CA /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				42FA1C171C49ADAC0019C48A /* SettingsPage.plist */,
 				42AA1A251C239C21004174CA /* AppDelegate.swift */,
 				42AA1A4F1C246821004174CA /* Mauritius-Bridging-Header.h */,
 				42AA1A2C1C239C21004174CA /* Assets.xcassets */,
@@ -223,6 +236,7 @@
 				42AA1A291C239C21004174CA /* Main.storyboard */,
 				42AA1A2E1C239C21004174CA /* LaunchScreen.storyboard */,
 				42AA1A611C276BD3004174CA /* MenuTableCell.xib */,
+				42FA1C1A1C49F23F0019C48A /* LanguageCell.xib */,
 				42AA1A651C277779004174CA /* RearViewController.xib */,
 				42AA1A731C28A18E004174CA /* ImageCollectionCell.xib */,
 				42BF84F91C2F176900FA49F3 /* PhotosViewController.xib */,
@@ -232,13 +246,14 @@
 			name = "Storyboard&Xibs";
 			sourceTree = "<group>";
 		};
-		42AA1A5B1C273056004174CA /* Extension */ = {
+		42AA1A5B1C273056004174CA /* Others */ = {
 			isa = PBXGroup;
 			children = (
+				42FA1C1F1C4AB9D70019C48A /* Reachability.swift */,
 				42AA1A5C1C27352F004174CA /* UIColor+Palette.swift */,
 				42AA1A591C273051004174CA /* UIImage+Decompression.swift */,
 			);
-			name = Extension;
+			name = Others;
 			sourceTree = "<group>";
 		};
 		58FCF42710F3C4439EFD71CF /* Pods */ = {
@@ -315,6 +330,8 @@
 				42AA1A301C239C21004174CA /* LaunchScreen.storyboard in Resources */,
 				42AA1A2D1C239C21004174CA /* Assets.xcassets in Resources */,
 				420F35661C31E25E00864B22 /* SettingsTableViewCell.xib in Resources */,
+				42FA1C181C49ADAC0019C48A /* SettingsPage.plist in Resources */,
+				42FA1C1C1C49F23F0019C48A /* LanguageCell.xib in Resources */,
 				420F35621C30C5AF00864B22 /* SettingsViewController.xib in Resources */,
 				42AA1A671C277779004174CA /* RearViewController.xib in Resources */,
 				42BF84FB1C2F176900FA49F3 /* PhotosViewController.xib in Resources */,
@@ -380,6 +397,8 @@
 			files = (
 				42AA1A5D1C27352F004174CA /* UIColor+Palette.swift in Sources */,
 				42AA1A741C28A18E004174CA /* ImageCollectionCell.swift in Sources */,
+				42FA1C201C4AB9D70019C48A /* Reachability.swift in Sources */,
+				42FA1C1B1C49F23F0019C48A /* LanguageCell.swift in Sources */,
 				420F355E1C30986900864B22 /* UNAlertView.swift in Sources */,
 				42AA1A5A1C273051004174CA /* UIImage+Decompression.swift in Sources */,
 				42AA1A791C28D98F004174CA /* CategoryModel.swift in Sources */,
@@ -389,6 +408,7 @@
 				420F35611C30C5AF00864B22 /* SettingsViewController.swift in Sources */,
 				42AA1A661C277779004174CA /* RearViewController.swift in Sources */,
 				420F35651C31E25E00864B22 /* SettingsTableViewCell.swift in Sources */,
+				42FA1C1E1C49F5AB0019C48A /* LanguageLabel.swift in Sources */,
 				42AA1A871C2CA298004174CA /* BeachModel.swift in Sources */,
 				42AA1A261C239C21004174CA /* AppDelegate.swift in Sources */,
 				42BF84FA1C2F176900FA49F3 /* PhotosViewController.swift in Sources */,

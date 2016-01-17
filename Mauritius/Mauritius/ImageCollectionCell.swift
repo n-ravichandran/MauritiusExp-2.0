@@ -22,20 +22,18 @@ class ImageCollectionCell: UICollectionViewCell {
     }
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
-        //self.viewMoreButton.layer.cornerRadius = 12
         
     }
     
-    //Focus for the current cell
+        //Focus for the current cell
         override func applyLayoutAttributes(layoutAttributes: UICollectionViewLayoutAttributes) {
             super.applyLayoutAttributes(layoutAttributes)
     
             let standardHeight = UltravisualLayoutConstants.Cell.standardHeight
             let featuredHeight = UltravisualLayoutConstants.Cell.featuredHeight
             let delta = 1 - ((featuredHeight - CGRectGetHeight(frame)) / (featuredHeight - standardHeight))
-            let minAlpha: CGFloat = 0.8
-            let maxAlpha: CGFloat = 0.3
+            let minAlpha: CGFloat = 0.3
+            let maxAlpha: CGFloat = 0.8
             coverImageView.alpha = maxAlpha - (delta * (maxAlpha - minAlpha))
         }
 

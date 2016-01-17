@@ -13,26 +13,30 @@ class ParseFetcher {
     
     
     //Fetching Categories
-    class func fetchCategories(values: [Int], completion: (result: [Category])-> Void){
+    class func fetchCategories(values: [Int], completion: (result: [Category], count1: Int)-> Void){
+        var levelOneCount: Int = 0
         var categories = [Category]()
-        let query = PFQuery(className: "Category")
+        let query = PFQuery(className: "Categories")
         query.whereKey("Level", containedIn: values)
         query.findObjectsInBackgroundWithBlock { (fetchedObjects, fetchError) -> Void in
             
             if fetchError == nil {
-                if let objects = fetchedObjects{
+                if let objects = fetchedObjects {
                     for item in objects {
+                        if item["Level"] as! Int == 1 {
+                            levelOneCount++
+                        }
                         categories.append(Category(categoryObject: item))
                     }
                 }
             }
-            completion(result: categories)
+            completion(result: categories, count1: levelOneCount)
         }
     }
     
     class func fetchBeaches(superParentId: String, completion: (result: [Beach]) -> Void) {
         var beaches = [Beach]()
-        let query = PFQuery(className: "Beach")
+        let query = PFQuery(className: "Beaches")
         query.whereKey("SuperParentId", equalTo: superParentId)
         query.findObjectsInBackgroundWithBlock { (responseObjects, responseError) -> Void in
             

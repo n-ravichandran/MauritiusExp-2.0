@@ -19,6 +19,8 @@ class PhotosViewController: UIViewController, SKPhotoBrowserDelegate {
     @IBOutlet var previousButton: UIButton!
     @IBOutlet var shareButton: UIButton!
     @IBOutlet var directionsButton: UIButton!
+    @IBOutlet var enquireNow: UIButton!
+    @IBOutlet var indexLabel: UILabel!
     
     
     var currentObjects: [Beach]?
@@ -27,22 +29,55 @@ class PhotosViewController: UIViewController, SKPhotoBrowserDelegate {
     var lattitude: String?
     var longitude: String?
     var weblink: String?
-
+    
+    var leftSwipe = UISwipeGestureRecognizer()
+    var rightSwipe = UISwipeGestureRecognizer()
+    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+    
+    
     override func viewDidLoad() {
 
         super.viewDidLoad()
+        //Setting up view
         self.view.backgroundColor = UIColor(patternImage: UIImage(named: "MauritiusBG.png")!)
-
         self.containerView.alpha = 0.8
         self.containerView.layer.cornerRadius = 4
         self.imageView.layer.cornerRadius = 4
         self.imageView.clipsToBounds = true
         self.imageView.userInteractionEnabled = true
         self.imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "photoViewer"))
+        self.leftSwipe = UISwipeGestureRecognizer(target: self, action: "loadNextImage")
+        self.leftSwipe.direction = UISwipeGestureRecognizerDirection.Left
+        self.rightSwipe = UISwipeGestureRecognizer(target: self, action: "loadPreviousImage")
+        self.rightSwipe.direction = UISwipeGestureRecognizerDirection.Right
+        self.imageView.addGestureRecognizer(leftSwipe)
+        self.imageView.addGestureRecognizer(rightSwipe)
+        self.enquireNow.layer.cornerRadius = 4
+        
+        //Activity indicator
+        self.activityIndicator.center = self.view.center
+        self.activityIndicator.startAnimating()
+        self.view.addSubview(activityIndicator)
         
         if let imageFile = currentObjects?.first?.imageFile {
-            //Setting initial image on view load
-            self.loadImageView(imageFile)
+            if Reachability.isConnectedToNetwork() {
+                //Setting initial image on view load
+                self.loadImageView(imageFile)
+            }else {
+                Reachability.networkErrorView(self.view)
+            }
+        }
+        
+        //Title for the view
+        if let object = currentObjects?.first {
+            if let newTitle = object.description {
+                let index = newTitle.rangeOfString("-")?.startIndex
+                if let value = index {
+                    self.title = newTitle.substringFromIndex(value.successor())
+                }else {
+                    self.title = newTitle
+                }
+            }
         }
         
         //Adding actions to buttons
@@ -52,6 +87,11 @@ class PhotosViewController: UIViewController, SKPhotoBrowserDelegate {
         self.directionsButton.addTarget(self, action: "showDirections", forControlEvents: .TouchUpInside)
         self.shareButton.addTarget(self, action: "shareImage", forControlEvents: .TouchUpInside)
         
+        if let count = currentObjects?.count {
+            self.indexLabel.text = "\(index+1)/\(count)"
+        }
+        
+        //Get lat & long for directions
         self.getGeopoints()
     }
     
@@ -59,7 +99,7 @@ class PhotosViewController: UIViewController, SKPhotoBrowserDelegate {
     func getGeopoints() {
         if let category = currentObjects?.first {
             if let object: String = category.linkId {
-                let query = PFQuery(className: "Category")
+                let query = PFQuery(className: "Categories")
                 query.getObjectInBackgroundWithId(object, block: { (response, error) -> Void in
                     
                     if error == nil {
@@ -70,12 +110,15 @@ class PhotosViewController: UIViewController, SKPhotoBrowserDelegate {
                         }
                         self.lattitude = cat.lattitude
                         self.longitude = cat.longitude
+                    } else if error?.code == 100 {
+                        Reachability.networkErrorView(self.view)
                     }
                 })
             }
         }
     }
     
+    //Loading image
     func loadImageView(imageFile: PFFile) {
         
         imageFile.getDataInBackgroundWithBlock { (imageData, responseError) -> Void in
@@ -84,8 +127,14 @@ class PhotosViewController: UIViewController, SKPhotoBrowserDelegate {
                 if let result = imageData {
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         self.imageView.image = UIImage(data: result)
+                        self.activityIndicator.stopAnimating()
+                        self.imageView.alpha = 1.0
                     })
                 }
+            } else if responseError?.code == 100 {
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    //Call to Error connection view
+                })
             }
         }
     }
@@ -96,7 +145,12 @@ class PhotosViewController: UIViewController, SKPhotoBrowserDelegate {
             return
         }
         if index < count {
+            self.activityIndicator.startAnimating()
+            self.imageView.alpha = 0.6
             self.previousButton.userInteractionEnabled = true
+            self.previousButton.alpha = 1.0
+            self.imageView.addGestureRecognizer(rightSwipe)
+            self.indexLabel.text = "\(index+1)/\(count)"
             if let imageFile = currentObjects?[index].imageFile {
                 self.loadImageView(imageFile)
             } else {
@@ -105,7 +159,9 @@ class PhotosViewController: UIViewController, SKPhotoBrowserDelegate {
         }
         
         if index == count - 1 {
+            self.imageView.removeGestureRecognizer(leftSwipe)
             self.nextButton.userInteractionEnabled = false
+            self.nextButton.alpha = 0.8
         }
         
     }
@@ -113,7 +169,15 @@ class PhotosViewController: UIViewController, SKPhotoBrowserDelegate {
     func loadPreviousImage() {
         index--
         if index >= 0 {
+            
+            self.activityIndicator.startAnimating()
+            self.imageView.alpha = 0.6
             self.nextButton.userInteractionEnabled = true
+            self.nextButton.alpha = 1.0
+            self.imageView.addGestureRecognizer(leftSwipe)
+            if let count = currentObjects?.count {
+                self.indexLabel.text = "\(index+1)/\(count)"
+            }
             if let imageFile = currentObjects?[index].imageFile{
                 self.loadImageView(imageFile)
             } else {
@@ -123,6 +187,8 @@ class PhotosViewController: UIViewController, SKPhotoBrowserDelegate {
         
         if index == 0 {
             self.previousButton.userInteractionEnabled = false
+            self.previousButton.alpha = 0.8
+            self.imageView.removeGestureRecognizer(rightSwipe)
         }
     }
 
@@ -131,6 +197,7 @@ class PhotosViewController: UIViewController, SKPhotoBrowserDelegate {
         // Dispose of any resources that can be recreated.
     }
     
+    //Setting up photo browser
     func photoViewer() {
         //Calling Activitty Indicator
         var config : SwiftLoader.Config = SwiftLoader.Config()
@@ -210,6 +277,7 @@ class PhotosViewController: UIViewController, SKPhotoBrowserDelegate {
         //**TBU**
     }
     
+    //Adding favourites
     func favouriteAction() {
         if PFUser.currentUser() == nil {
             let alertView = UNAlertView(title: "Alert", message: "Please add your email to add favourites")
@@ -227,15 +295,18 @@ class PhotosViewController: UIViewController, SKPhotoBrowserDelegate {
         
     }
     
+    //Opening maps to show directions
     func showDirections() {
         if self.weblink == nil {
             let alertView = UNAlertView(title: "Open Maps", message: "")
             alertView.addButton("Google Maps", backgroundColor: UIColor(red: 55/255, green: 55/255, blue: 55/255, alpha: 1.0)) { () -> Void in
                 
+                //Google Maps
                 UIApplication.sharedApplication().openURL(NSURL(string:"comgooglemaps://?saddr=&daddr=\(self.lattitude!),\(self.longitude!)&directionsmode=driving")!)
             }
             alertView.addButton("Apple Maps", backgroundColor: UIColor(red: 55/255, green: 55/255, blue: 55/255, alpha: 1.0)) { () -> Void in
                 
+                //Apple Maps
                 UIApplication.sharedApplication().openURL(NSURL(string:"http://maps.apple.com/?daddr=\(self.lattitude!),\(self.longitude!)&saddr=")!)
             }
 
@@ -245,6 +316,7 @@ class PhotosViewController: UIViewController, SKPhotoBrowserDelegate {
         } else {
             let alertView = UNAlertView(title: "Open in Safari", message: "")
             alertView.addButton("Open", backgroundColor: UIColor(red: 55/255, green: 55/255, blue: 55/255, alpha: 1.0)) { () -> Void in
+                //Open url in browser
                 UIApplication.sharedApplication().openURL(NSURL(string: self.weblink!)!)
             }
 
@@ -252,6 +324,17 @@ class PhotosViewController: UIViewController, SKPhotoBrowserDelegate {
             alertView.show()
         }
     }
+    
+    //Try again action for network error
+    func tryAgainAction() {
+        for subview in self.view.subviews{
+            if subview.tag == 100{
+                subview.removeFromSuperview()
+                self.viewDidLoad()
+            }
+        }
+    }
+
     
 }
 

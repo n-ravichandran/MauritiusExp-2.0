@@ -14,9 +14,10 @@ class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
     var beachArray = [String]()
     
     var collectionView: UICollectionView!
-    var pid = "ahOcEDJQSr" // default place to be loaded
+    var pid = "wic0lLoZcs" // default place to be loaded
     var currentObjectId: String? // Current place for view
     var selectedObject: [Beach]? // Beach that is currently viewed
+    var newTitle: String? //Title for view controller
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +27,8 @@ class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
         collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.contentInset = UIEdgeInsets(top: 55, left: 0, bottom: 0, right: 0)
+        //collectionView.contentInset = UIEdgeInsets(top: 55, left: 0, bottom: 0, right: 0)
+        
         //Registering custom Cell
         self.collectionView.registerNib(UINib(nibName: "ImageCollectionCell", bundle: nil), forCellWithReuseIdentifier: "Cell")
         self.view.addSubview(collectionView)
@@ -40,6 +42,13 @@ class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
 
         }
         
+        //Title for view controller
+//        if let str = newTitle {
+//            self.title = str
+//        }else {
+//            self.title = "Beaches"
+//        }
+        
         if let id = currentObjectId {
             pid = id
         }
@@ -48,8 +57,13 @@ class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
             self.errorMessageView()
         }else {
             //Load images from parse
-            self.getImages()
+            if Reachability.isConnectedToNetwork() {
+                self.getImages()
+            }else {
+                Reachability.networkErrorView(self.view)
+            }
         }
+        
     }
     
     
@@ -89,6 +103,7 @@ class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! ImageCollectionCell
         if let currentItem = beachDict[beachArray[indexPath.item]] {
+            //Setting title for the images from description
             let title = currentItem.first?.description
             let index = title!.rangeOfString("-")?.startIndex
             if let value = index {
@@ -168,6 +183,16 @@ class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
         
         self.view.addSubview(messageView)
         
+    }
+    
+    //Try again action for network error
+    func tryAgainAction() {
+        for subview in self.view.subviews{
+            if subview.tag == 100{
+                subview.removeFromSuperview()
+                self.viewDidLoad()
+            }
+        }
     }
 
 }

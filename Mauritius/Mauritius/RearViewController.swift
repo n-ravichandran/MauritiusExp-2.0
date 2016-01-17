@@ -27,20 +27,22 @@ class RearViewController: UITableViewController {
         self.getCategories()
     }
     
-    //Fetching level one and two menu items
+    //Fetching level one and level two menu items
     func getCategories() {
         var levelOneObjects = [String]()
-        ParseFetcher.fetchCategories([1, 2]) { (result) -> Void in
+        ParseFetcher.fetchCategories([1, 2]) { (result, count1) -> Void in
             if result.count > 0 {
                 self.categories = result
+                self.levelOne = [Category](count: count1, repeatedValue: Category())
                 
                 for item in self.categories! {
                     if item.level == 1 {
-                        self.levelOne.append(item)
+                        if let position = item.position{
+                            self.levelOne[position-1] = item
+                        }
                         levelOneObjects.append(item.objectId!)
                     }
                 }
-                
                 for item in self.categories! {
                     if levelOneObjects.contains(item.parentID!) {
                         if var existingArray = self.levelTwo[item.parentID!] {
@@ -54,6 +56,11 @@ class RearViewController: UITableViewController {
                 }
                 
             }
+            //Reordering the level two menu based on position
+            for (key, item) in self.levelTwo {
+                let sortedArray = item.sort({$0.position < $1.position})
+                self.levelTwo[key] = sortedArray
+            }
             self.tableView.reloadData()
         }
     }
@@ -66,13 +73,17 @@ class RearViewController: UITableViewController {
 
     // MARK: - Table view data source
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
+
         return levelOne.count
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let objects = levelTwo[levelOne[section].objectId!] {
-            return objects.count
+        if levelOne[section].isAvailable {
+            if let objects = levelTwo[levelOne[section].objectId!]{
+                return objects.count
+            }else {
+                return 0
+            }
         }else {
             return 0
         }
@@ -92,9 +103,9 @@ class RearViewController: UITableViewController {
         header.contentView.backgroundColor = UIColor(red: 38/255, green: 40/255, blue: 43/255, alpha: 1.0)
         header.textLabel?.textColor = UIColor.whiteColor()
         header.textLabel?.font = UIFont(name: "HelveticaNeue", size: (header.textLabel?.font?.pointSize)!)
-        if section == 2 {
+        if header.textLabel?.text == "Favourites" {
             header.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "favouritesPage"))
-        }else if section == 3 {
+        }else if header.textLabel?.text == "Settings"{
             header.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "settingsPage"))
         }
     }
@@ -113,10 +124,12 @@ class RearViewController: UITableViewController {
         if ((indexPath.section == 0) && (indexPath.row == 0)) {
             
         }else {
-            let objects = levelTwo[levelOne[indexPath.section].objectId!]
-            mainVC.currentObjectId = objects![indexPath.row].objectId
-            newFrontViewController = UINavigationController(rootViewController: mainVC)
-            revealViewController().pushFrontViewController(newFrontViewController, animated: true)
+            if let objects = levelTwo[levelOne[indexPath.section].objectId!] {
+                mainVC.currentObjectId = objects[indexPath.row].objectId
+                mainVC.newTitle = objects[indexPath.row].name
+                newFrontViewController = UINavigationController(rootViewController: mainVC)
+                revealViewController().pushFrontViewController(newFrontViewController, animated: true)
+            }
         }
         
         

@@ -23,6 +23,7 @@ struct Category {
     let isActive: Bool?
     let directChild: Bool?
     let hasChild: Bool?
+    var isAvailable: Bool = false
     
     init(categoryObject: PFObject) {
         
@@ -38,6 +39,23 @@ struct Category {
         self.isActive = categoryObject["IsActive"] as? Bool
         self.hasChild = categoryObject["hasChild"] as? Bool
         self.directChild = categoryObject["directchild"] as? Bool
+        self.isAvailable = true
+    }
+    
+    init() {
+        
+        self.objectId = nil
+        self.name = nil
+        self.position = nil
+        self.lattitude = nil
+        self.longitude = nil
+        self.webLink = nil
+        self.iconName = nil
+        self.level = nil
+        self.parentID = nil
+        self.isActive = nil
+        self.hasChild = nil
+        self.directChild = nil
     }
     
 }

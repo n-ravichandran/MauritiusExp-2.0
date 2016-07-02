@@ -27,7 +27,7 @@ class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
         collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
         collectionView.dataSource = self
         collectionView.delegate = self
-        //collectionView.contentInset = UIEdgeInsets(top: 55, left: 0, bottom: 0, right: 0)
+        collectionView.contentInset = UIEdgeInsets(top: 55, left: 0, bottom: 0, right: 0)
         
         //Registering custom Cell
         self.collectionView.registerNib(UINib(nibName: "ImageCollectionCell", bundle: nil), forCellWithReuseIdentifier: "Cell")
@@ -37,7 +37,7 @@ class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
         if self.revealViewController() != nil {
             self.view.addGestureRecognizer(revealViewController().panGestureRecognizer())
             self.revealViewController().rearViewRevealWidth = 290
-            let barButtonItem = UIBarButtonItem(image: UIImage(named: "menu.png"), style: .Plain, target: self.revealViewController(), action: "revealToggle:")
+            let barButtonItem = UIBarButtonItem(image: UIImage(named: "menu.png"), style: .Plain, target: self.revealViewController(), action: #selector(SWRevealViewController.revealToggle(_:)))
             navigationItem.leftBarButtonItem = barButtonItem
 
         }
@@ -68,7 +68,7 @@ class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
     
     
     func getImages() {
-        ParseFetcher.fetchBeaches(pid) { (result) -> Void in
+        ParseFetcher.sharedInstance.fetchBeaches(pid) { (result) -> Void in
             if result.count > 0 {
                 for item in result {
                     if var existingArray = self.beachDict[item.linkId!] {
@@ -105,7 +105,7 @@ class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
         if let currentItem = beachDict[beachArray[indexPath.item]] {
             //Setting title for the images from description
             let title = currentItem.first?.description
-            let index = title!.rangeOfString("-")?.startIndex
+            let index = title?.rangeOfString("-")?.startIndex
             if let value = index {
                 cell.cellTitle.text = title?.substringFromIndex(value.successor())
             }else {
@@ -169,18 +169,18 @@ class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
     func errorMessageView() {
         let messageView = UIView(frame: UIScreen.mainScreen().bounds)
         messageView.backgroundColor = UIColor(red: 234/255, green: 234/255, blue: 234/255, alpha: 1.0)
-        let messageLabel = UILabel(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 21))
+        let messageLabel = UILabel(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 25))
         messageLabel.center = messageView.center
-        messageLabel.text = "You do not have any favourites yet!"
+        messageLabel.font = UIFont(name: "Helvetica", size: 18)
+        messageLabel.text = "Coming Soon... Stay Tuned!"
         messageLabel.textColor = UIColor.darkGrayColor()
         messageLabel.textAlignment = .Center
-        let icon = UIImageView(frame: CGRectMake(0, 0, 45, 45))
-        icon.image = UIImage(named: "like-filled.png")
+        let icon = UIImageView(frame: CGRectMake(0, 0, 60, 60))
+        icon.image = UIImage(named: "coming_soon.png")
         icon.center.x = messageView.center.x
-        icon.center.y = messageView.center.y - 40
+        icon.center.y = messageView.center.y - 60
         messageView.addSubview(icon)
         messageView.addSubview(messageLabel)
-        
         self.view.addSubview(messageView)
         
     }

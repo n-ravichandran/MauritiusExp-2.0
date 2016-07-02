@@ -62,7 +62,7 @@ public class Reachability: NSObject {
             tryAgain.backgroundColor = UIColor.whiteColor()
             tryAgain.setTitleColor(UIColor.redColor(), forState: .Normal)
             tryAgain.layer.cornerRadius = 15
-            tryAgain.addTarget(MainViewController(), action: "tryAgainAction", forControlEvents: .TouchUpInside)
+            tryAgain.addTarget(MainViewController(), action: #selector(MainViewController.tryAgainAction), forControlEvents: .TouchUpInside)
             view.addSubview(blurredView)
             blurredView.addSubview(tryAgain)
             blurredView.addSubview(errorMessage)

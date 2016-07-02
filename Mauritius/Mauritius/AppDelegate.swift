@@ -9,6 +9,8 @@
 import UIKit
 import Parse
 
+var APP_DEFAULT_LANGUAGE: Language = .English //Lanaguage for app
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 

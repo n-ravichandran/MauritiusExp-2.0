@@ -9,6 +9,14 @@
 import Foundation
 import Parse
 
+enum Language: Int{
+    case Chinese = 1
+    case English
+    case French
+    case German
+    case Italian
+}
+
 struct Category {
     
     let objectId: String?
@@ -24,6 +32,10 @@ struct Category {
     let directChild: Bool?
     let hasChild: Bool?
     var isAvailable: Bool = false
+    var french: String?
+    var german: String?
+    var chinese: String?
+    var italian: String?
     
     init(categoryObject: PFObject) {
         
@@ -40,6 +52,10 @@ struct Category {
         self.hasChild = categoryObject["hasChild"] as? Bool
         self.directChild = categoryObject["directchild"] as? Bool
         self.isAvailable = true
+        self.french = categoryObject["french"] as? String
+        self.german = categoryObject["german"] as? String
+        self.chinese = categoryObject["chinese"] as? String
+        self.italian = categoryObject["italian"] as? String
     }
     
     init() {
@@ -51,7 +67,7 @@ struct Category {
         self.longitude = nil
         self.webLink = nil
         self.iconName = nil
-        self.level = nil
+        self.level = 0
         self.parentID = nil
         self.isActive = nil
         self.hasChild = nil

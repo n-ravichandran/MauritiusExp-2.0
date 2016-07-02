@@ -32,8 +32,8 @@ class ImageCollectionCell: UICollectionViewCell {
             let standardHeight = UltravisualLayoutConstants.Cell.standardHeight
             let featuredHeight = UltravisualLayoutConstants.Cell.featuredHeight
             let delta = 1 - ((featuredHeight - CGRectGetHeight(frame)) / (featuredHeight - standardHeight))
-            let minAlpha: CGFloat = 0.3
-            let maxAlpha: CGFloat = 0.8
+            let minAlpha: CGFloat = 0.8
+            let maxAlpha: CGFloat = 0.3
             coverImageView.alpha = maxAlpha - (delta * (maxAlpha - minAlpha))
         }
 

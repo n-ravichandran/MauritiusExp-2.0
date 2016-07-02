@@ -18,9 +18,9 @@ class RearViewController: UITableViewController {
         super.viewDidLoad()
 
         self.clearsSelectionOnViewWillAppear = false
-        self.navigationController?.navigationBarHidden = true
+        self.navigationController?.navigationBarHidden = false
+        self.title = "Mauritius Explored"
         self.tableView.separatorStyle = .None
-        
         //Registering custom cell
         self.tableView.registerNib(UINib(nibName: "MenuTableCell", bundle: nil), forCellReuseIdentifier: "MenuCell")
         
@@ -30,7 +30,7 @@ class RearViewController: UITableViewController {
     //Fetching level one and level two menu items
     func getCategories() {
         var levelOneObjects = [String]()
-        ParseFetcher.fetchCategories([1, 2]) { (result, count1) -> Void in
+        ParseFetcher.sharedInstance.fetchCategories([1, 2]) { (result, count1) -> Void in
             if result.count > 0 {
                 self.categories = result
                 self.levelOne = [Category](count: count1, repeatedValue: Category())
@@ -63,6 +63,12 @@ class RearViewController: UITableViewController {
             }
             self.tableView.reloadData()
         }
+        //Adding language change notification observer
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.languageChange), name: "languageChange", object: nil)
+    }
+    
+    func languageChange() {
+        self.tableView.reloadData()
     }
 
 
@@ -104,9 +110,9 @@ class RearViewController: UITableViewController {
         header.textLabel?.textColor = UIColor.whiteColor()
         header.textLabel?.font = UIFont(name: "HelveticaNeue", size: (header.textLabel?.font?.pointSize)!)
         if header.textLabel?.text == "Favourites" {
-            header.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "favouritesPage"))
+            header.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(RearViewController.favouritesPage)))
         }else if header.textLabel?.text == "Settings"{
-            header.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "settingsPage"))
+            header.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(RearViewController.settingsPage)))
         }
     }
     
@@ -114,15 +120,44 @@ class RearViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("MenuCell", forIndexPath: indexPath) as! MenuTableCell
         let objects = levelTwo[levelOne[indexPath.section].objectId!]
         cell.menuLabel.text = objects![indexPath.row].name
-        cell.menuIcon.image = UIImage(named: objects![indexPath.row].iconName!)
+        
+        switch APP_DEFAULT_LANGUAGE {
+            case .English:
+                cell.menuLabel.text = objects![indexPath.row].name
+            case .Chinese:
+                cell.menuLabel.text = objects![indexPath.row].chinese
+            case .Italian:
+                cell.menuLabel.text = objects![indexPath.row].italian
+            case .German:
+                cell.menuLabel.text = objects![indexPath.row].german
+            case .French:
+                cell.menuLabel.text = objects![indexPath.row].french
+        }
+        
+        if let iconName = objects![indexPath.row].iconName {
+            cell.menuIcon.image = UIImage(named: iconName)?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+            cell.menuIcon.tintColor = UIColor.grayColor()
+        }
+        cell.backgroundColor = UIColor(red: 45/255, green: 47/255, blue: 50/255, alpha: 1.0)
+
         return cell
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let selectedCell = tableView.cellForRowAtIndexPath(indexPath) as? MenuTableCell
+        selectedCell?.backgroundColor = UIColor(red: 255/255, green: 66/255, blue: 70/255, alpha: 1.0)
+        selectedCell?.menuIcon.tintColor = UIColor.whiteColor()
+        
         var newFrontViewController: UINavigationController?
         let mainVC = MainViewController()
         if ((indexPath.section == 0) && (indexPath.row == 0)) {
-            
+            mainVC.title = "Beaches"
+            let frontVC = UINavigationController(rootViewController: mainVC)
+            let rearVC = UINavigationController(rootViewController: Rear2ViewController())
+            let childVC = SWRevealViewController(rearViewController: rearVC, frontViewController: frontVC)
+            childVC.rearViewRevealDisplacement = 20
+            childVC.setFrontViewPosition(FrontViewPosition.Right, animated: true)
+            revealViewController().pushFrontViewController(childVC, animated: true)
         }else {
             if let objects = levelTwo[levelOne[indexPath.section].objectId!] {
                 mainVC.currentObjectId = objects[indexPath.row].objectId
@@ -132,7 +167,12 @@ class RearViewController: UITableViewController {
             }
         }
         
-        
+    }
+    
+    override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+        let deselectedCell = tableView.cellForRowAtIndexPath(indexPath) as? MenuTableCell
+        deselectedCell?.backgroundColor = UIColor(red: 45/255, green: 47/255, blue: 50/255, alpha: 1.0)
+        deselectedCell?.menuIcon.tintColor = UIColor.grayColor()
     }
     
     override func shouldAutorotate() -> Bool {
@@ -152,10 +192,8 @@ class RearViewController: UITableViewController {
     
     //Favourites page
     func favouritesPage() {
-        let mainVC = MainViewController()
-        mainVC.title = "Favourites"
-        mainVC.currentObjectId = " "
-        let newFrontViewController = UINavigationController(rootViewController: mainVC)
+        let favsVC = FavsViewController()
+        let newFrontViewController = UINavigationController(rootViewController: favsVC)
         revealViewController().pushFrontViewController(newFrontViewController, animated: true)
     }
 

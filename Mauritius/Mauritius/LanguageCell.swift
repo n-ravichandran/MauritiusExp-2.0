@@ -22,7 +22,7 @@ class LanguageCell: UITableViewCell, UIPickerViewDataSource, UIPickerViewDelegat
         self.languagePicker.delegate = self
         self.languagePicker.dataSource = self
     }
-
+    
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
@@ -42,7 +42,11 @@ class LanguageCell: UITableViewCell, UIPickerViewDataSource, UIPickerViewDelegat
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.languageLabel.text = languages[row]
-        userDefaults.setObject(languages[row], forKey: "currentLanguage")
+        userDefaults.setInteger(row + 1, forKey: "currentLanguage")
+        
+        APP_DEFAULT_LANGUAGE = Language(rawValue: row+1)!
+        
+        NSNotificationCenter.defaultCenter().postNotificationName("languageChange", object: nil)
     }
     
 }

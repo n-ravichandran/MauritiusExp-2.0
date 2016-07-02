@@ -6,7 +6,7 @@
 //  Copyright © 2015 suzuki_keishi. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class SKIndicatorView: UIActivityIndicatorView {
     
@@ -16,7 +16,7 @@ class SKIndicatorView: UIActivityIndicatorView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        center = CGPointMake(frame.width/2, frame.height/2)
+        center = CGPoint(x: frame.width / 2, y: frame.height / 2)
         activityIndicatorViewStyle = .WhiteLarge
     }
     

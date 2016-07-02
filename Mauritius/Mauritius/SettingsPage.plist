@@ -7,8 +7,7 @@
 		<integer>0</integer>
 		<key>cellItems</key>
 		<array>
-			<string>First Name</string>
-			<string>Last Name</string>
+			<string>Full Name</string>
 			<string>Email</string>
 			<string>Phone</string>
 		</array>

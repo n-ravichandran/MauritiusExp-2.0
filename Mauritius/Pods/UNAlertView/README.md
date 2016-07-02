@@ -1,7 +1,7 @@
 ## UNAlertView
 
-UNAlertView is an UIAlertView replacement with a simple appearance.  
-You can align the message and change the direction of buttons.
+UNAlertView is a flexible UIAlertView replacement with **simple appearance**.  
+It enables you to **align the message** and **change directions of the buttons**.
 
 
 [![Version](https://img.shields.io/cocoapods/v/UNAlertView.svg?style=flat)](http://cocoapods.org/pods/UNAlertView)
@@ -10,8 +10,17 @@ You can align the message and change the direction of buttons.
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
 ## Preview
-<img src="https://raw.githubusercontent.com/wiki/ytakzk/UNAlertView/images/horizontal.png" width="340px">
-<img src="https://raw.githubusercontent.com/wiki/ytakzk/UNAlertView/images/vertical.png" width="340px">
+<img src="https://raw.githubusercontent.com/wiki/ytakzk/UNAlertView/images/horizontal.gif" width="340px">
+<img src="https://raw.githubusercontent.com/wiki/ytakzk/UNAlertView/images/vertical.gif" width="340px">  
+
+## Features
+
+- Use window to present
+- Closure syntax
+- UIAppearance support
+- Easy to change directions of buttons (Just with 1 line of code.)
+- Align the message (UIAlertView & UIAlertViewController do not support it.)
+- Universal usage (Support iOS7, iOS8 and iOS9 without any conditional branches.)
 
 ## Installation
 
@@ -98,5 +107,8 @@ ytakzk
 [http://ytakzk.me](http://ytakzk.me)
 
 ## License
-Hokusai is released under the MIT license.  
+UNAlertView is released under the MIT license.  
 See LICENSE for details.
+
+<img src="https://raw.githubusercontent.com/wiki/ytakzk/UNAlertView/images/horizontal.png" width="340px">
+<img src="https://raw.githubusercontent.com/wiki/ytakzk/UNAlertView/images/vertical.png" width="340px">

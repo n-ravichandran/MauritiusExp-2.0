@@ -1,7 +1,6 @@
 platform :ios, '8.0'
 use_frameworks!
 
-pod 'SWRevealViewController', '~>2.3'
 pod 'Parse'
 pod 'SKPhotoBrowser'
 pod 'UNAlertView', '~> 0.1'

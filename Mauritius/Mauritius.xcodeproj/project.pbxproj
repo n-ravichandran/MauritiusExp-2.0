@@ -17,6 +17,7 @@
 		4213E05A1D20B02C00871FE1 /* FavsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4213E0591D20B02C00871FE1 /* FavsCollectionViewCell.swift */; };
 		4213E05C1D20B05500871FE1 /* FavsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4213E05B1D20B05500871FE1 /* FavsCollectionViewCell.xib */; };
 		4213E05E1D24A6C400871FE1 /* Rear2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4213E05D1D24A6C400871FE1 /* Rear2ViewController.swift */; };
+		4213E0611D28215500871FE1 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4213E0601D28215500871FE1 /* SWRevealViewController.m */; };
 		42AA1A261C239C21004174CA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AA1A251C239C21004174CA /* AppDelegate.swift */; };
 		42AA1A2B1C239C21004174CA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42AA1A291C239C21004174CA /* Main.storyboard */; };
 		42AA1A2D1C239C21004174CA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 42AA1A2C1C239C21004174CA /* Assets.xcassets */; };
@@ -72,6 +73,8 @@
 		4213E0591D20B02C00871FE1 /* FavsCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavsCollectionViewCell.swift; sourceTree = "<group>"; };
 		4213E05B1D20B05500871FE1 /* FavsCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FavsCollectionViewCell.xib; sourceTree = "<group>"; };
 		4213E05D1D24A6C400871FE1 /* Rear2ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rear2ViewController.swift; sourceTree = "<group>"; };
+		4213E05F1D28215500871FE1 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
+		4213E0601D28215500871FE1 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		42AA1A221C239C21004174CA /* Mauritius.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mauritius.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		42AA1A251C239C21004174CA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		42AA1A2A1C239C21004174CA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -159,6 +162,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		4213E0621D28215C00871FE1 /* SWRevealView */ = {
+			isa = PBXGroup;
+			children = (
+				4213E05F1D28215500871FE1 /* SWRevealViewController.h */,
+				4213E0601D28215500871FE1 /* SWRevealViewController.m */,
+			);
+			name = SWRevealView;
+			sourceTree = "<group>";
+		};
 		42AA1A191C239C20004174CA = {
 			isa = PBXGroup;
 			children = (
@@ -221,6 +233,7 @@
 		42AA1A391C239C6A004174CA /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				4213E0621D28215C00871FE1 /* SWRevealView */,
 				42FA1C171C49ADAC0019C48A /* SettingsPage.plist */,
 				42AA1A251C239C21004174CA /* AppDelegate.swift */,
 				42AA1A4F1C246821004174CA /* Mauritius-Bridging-Header.h */,
@@ -412,6 +425,7 @@
 				42AA1A5D1C27352F004174CA /* UIColor+Palette.swift in Sources */,
 				42AA1A741C28A18E004174CA /* ImageCollectionCell.swift in Sources */,
 				4213E0581D20AFB900871FE1 /* FavsViewController.swift in Sources */,
+				4213E0611D28215500871FE1 /* SWRevealViewController.m in Sources */,
 				42FA1C201C4AB9D70019C48A /* Reachability.swift in Sources */,
 				42FA1C1B1C49F23F0019C48A /* LanguageCell.swift in Sources */,
 				420F355E1C30986900864B22 /* UNAlertView.swift in Sources */,

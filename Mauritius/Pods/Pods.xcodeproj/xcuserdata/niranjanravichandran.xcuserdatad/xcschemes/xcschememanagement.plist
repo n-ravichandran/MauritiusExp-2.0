@@ -24,11 +24,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>SWRevealViewController.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>UNAlertView.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -42,27 +37,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>4D315010891B153F9452965246BC5782</key>
+		<key>4C95316BDFD014E6D65FBC9281D0D207</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>812FF8A7DCB6FFDBC77B35D17E45180B</key>
+		<key>69584B32069C458E19E5D296920F5BA1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>6CB83D23089898B987586912E81B7184</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>B272B33F162D6E5C3510BA50ECF2684B</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>B3271DC9D61C071AA6A07356114DEF01</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>C075B8299FF64CF359D0ACEE062C4CDC</key>
 		<dict>
 			<key>primary</key>
 			<true/>

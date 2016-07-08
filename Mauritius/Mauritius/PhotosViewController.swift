@@ -407,7 +407,6 @@ class PhotosViewController: UIViewController, MFMailComposeViewControllerDelegat
             }
         }
     }
-
     
 }
 

@@ -194,5 +194,9 @@ class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
             }
         }
     }
+    
+    override func viewDidLayoutSubviews() {
+        collectionView.frame.size.width = UIScreen.mainScreen().bounds.width
+    }
 
 }

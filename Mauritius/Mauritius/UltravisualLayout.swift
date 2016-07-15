@@ -46,21 +46,21 @@ class UltravisualLayout: UICollectionViewLayout {
   /* Returns the width of the collection view */
   var width: CGFloat {
     get {
-      return CGRectGetWidth(collectionView!.bounds)
+      return collectionView!.bounds.width
     }
   }
   
   /* Returns the height of the collection view */
   var height: CGFloat {
     get {
-      return CGRectGetHeight(collectionView!.bounds)
+      return collectionView!.bounds.height
     }
   }
   
   /* Returns the number of items in the collection view */
   var numberOfItems: Int {
     get {
-      return collectionView!.numberOfItemsInSection(0)
+      return collectionView!.numberOfItems(inSection: 0)
     }
   }
   
@@ -72,28 +72,28 @@ class UltravisualLayout: UICollectionViewLayout {
     return CGSize(width: width, height: contentHeight)
   }
   
-  override func prepareLayout() {
-    cache.removeAll(keepCapacity: false)
+  override func prepare() {
+    cache.removeAll(keepingCapacity: false)
     
     let standardHeight = UltravisualLayoutConstants.Cell.standardHeight
     let featuredHeight = UltravisualLayoutConstants.Cell.featuredHeight
     
-    var frame = CGRectZero
+    var frame = CGRect.zero
     var y: CGFloat = 0
     
     for item in 0..<numberOfItems {
-        let indexPath = NSIndexPath(forItem: item, inSection: 0)
-        let attributes = UICollectionViewLayoutAttributes(forCellWithIndexPath: indexPath)
+        let indexPath = IndexPath(item: item, section: 0)
+        let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
         
         attributes.zIndex = item
         var height = standardHeight
         
-        if indexPath.item == featuredItemIndex {
+        if (indexPath as NSIndexPath).item == featuredItemIndex {
 
             let yOffset = standardHeight * nextItemPercentageOffset
             y = collectionView!.contentOffset.y - yOffset
             height = featuredHeight
-        } else if indexPath.item == (featuredItemIndex + 1) && indexPath.item != numberOfItems {
+        } else if (indexPath as NSIndexPath).item == (featuredItemIndex + 1) && (indexPath as NSIndexPath).item != numberOfItems {
 
             let maxY = y + standardHeight
             height = standardHeight + max((featuredHeight - standardHeight) * nextItemPercentageOffset, 0)
@@ -103,16 +103,16 @@ class UltravisualLayout: UICollectionViewLayout {
         frame = CGRect(x: 0, y: y, width: width, height: height)
         attributes.frame = frame
         cache.append(attributes)
-        y = CGRectGetMaxY(frame)
+        y = frame.maxY
     }
     
   }
   
   /* Return all attributes in the cache whose frame intersects with the rect passed to the method */
-  override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+  override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
     var layoutAttributes = [UICollectionViewLayoutAttributes]()
     for attributes in cache {
-      if CGRectIntersectsRect(attributes.frame, rect) {
+      if attributes.frame.intersects(rect) {
         layoutAttributes.append(attributes)
       }
     }
@@ -120,12 +120,12 @@ class UltravisualLayout: UICollectionViewLayout {
   }
   
   /* Return true so that the layout is continuously invalidated as the user scrolls */
-  override func shouldInvalidateLayoutForBoundsChange(newBounds: CGRect) -> Bool {
+  override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
     return true
   }
     
     //For Smooth Scroll
-    override func targetContentOffsetForProposedContentOffset(proposedContentOffset: CGPoint, withScrollingVelocity velocity: CGPoint) -> CGPoint {
+    override func targetContentOffset(forProposedContentOffset proposedContentOffset: CGPoint, withScrollingVelocity velocity: CGPoint) -> CGPoint {
         let itemIndex = round(proposedContentOffset.y / dragOffset)
         let yOffset = itemIndex * dragOffset
         return CGPoint(x: 0, y: yOffset)

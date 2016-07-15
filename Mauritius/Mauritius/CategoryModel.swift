@@ -10,11 +10,11 @@ import Foundation
 import Parse
 
 enum Language: Int{
-    case Chinese = 1
-    case English
-    case French
-    case German
-    case Italian
+    case chinese = 1
+    case english
+    case french
+    case german
+    case italian
 }
 
 struct Category {

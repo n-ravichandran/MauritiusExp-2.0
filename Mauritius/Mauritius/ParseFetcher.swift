@@ -4,7 +4,7 @@
 //
 //  Created by Niranjan Ravichandran on 21/12/15.
 //  Copyright © 2015 adavers. All rights reserved.
-//
+//  Sort of like the connection manager class for the app
 
 import Foundation
 import Parse
@@ -14,12 +14,12 @@ class ParseFetcher {
     static let sharedInstance = ParseFetcher()
     
     //Fetching Categories
-    func fetchCategories(values: [Int], completion: (result: [Category], count1: Int)-> Void){
+    func fetchCategories(_ values: [Int], completion: (result: [Category], count1: Int)-> Void){
         var levelOneCount: Int = 0
         var categories = [Category]()
         let query = PFQuery(className: "Categories")
         query.whereKey("Level", containedIn: values)
-        query.findObjectsInBackgroundWithBlock { (fetchedObjects, fetchError) -> Void in
+        query.findObjectsInBackground { (fetchedObjects, fetchError) -> Void in
             
             if fetchError == nil {
                 if let objects = fetchedObjects {
@@ -35,11 +35,11 @@ class ParseFetcher {
         }
     }
     
-    func fetchBeaches(superParentId: String, completion: (result: [Beach]) -> Void) {
+    func fetchBeaches(_ superParentId: String, completion: (result: [Beach]) -> Void) {
         var beaches = [Beach]()
         let query = PFQuery(className: "Beaches")
         query.whereKey("SuperParentId", equalTo: superParentId)
-        query.findObjectsInBackgroundWithBlock { (responseObjects, responseError) -> Void in
+        query.findObjectsInBackground { (responseObjects, responseError) -> Void in
             
             if responseError == nil {
                 
@@ -55,13 +55,13 @@ class ParseFetcher {
     }
     
     //Check if user exists
-    func checkUser(username: String, completion: (userExists: Bool)-> Void) {
+    func checkUser(_ username: String, completion: (userExists: Bool)-> Void) {
         let query = PFQuery(className: "_User")
         query.whereKey("username", equalTo: username)
-        query.findObjectsInBackgroundWithBlock { (parseObject, responseError) in
+        query.findObjectsInBackground { (parseObject, responseError) in
             
             if responseError == nil {
-                print(parseObject?.first?.objectId, "######")
+//                print(parseObject?.first?.objectId, "######")
                 if parseObject?.first?.objectId != nil {
                     completion(userExists: true)
                 }else {
@@ -75,8 +75,8 @@ class ParseFetcher {
     }
     
     //Create a new user
-    func createUser(userObject: PFUser, completion: (status: Bool)-> Void) {
-        userObject.signUpInBackgroundWithBlock { (signUpsuccess, signupError) in
+    func createUser(_ userObject: PFUser, completion: (status: Bool)-> Void) {
+        userObject.signUpInBackground { (signUpsuccess, signupError) in
             if signUpsuccess{
                 completion(status: true)
             }else {
@@ -86,10 +86,10 @@ class ParseFetcher {
     }
     
     //Get favorites for username
-    func getFavorites(username: String, completion: (favroites: [PFObject]?)-> Void) {
+    func getFavorites(_ username: String, completion: (favroites: [PFObject]?)-> Void) {
         let query = PFQuery(className: "Favourites")
         query.whereKey("UserId", equalTo: username)
-        query.findObjectsInBackgroundWithBlock { (favs, fetchError) in
+        query.findObjectsInBackground { (favs, fetchError) in
             if fetchError == nil {
                 completion(favroites: favs)
             }else {
@@ -99,14 +99,14 @@ class ParseFetcher {
     }
     
     //Save favorites to server
-    func saveFavorites(username: String, favs: [String], completion: (saveSuccess: Bool, error: String?) -> Void){
+    func saveFavorites(_ username: String, favs: [String], completion: (saveSuccess: Bool, error: String?) -> Void){
         let query = PFQuery(className: "Favourites")
         query.whereKey("UserId", equalTo: username)
-        query.findObjectsInBackgroundWithBlock { (favObjects, fetchError) in
+        query.findObjectsInBackground { (favObjects, fetchError) in
             if fetchError == nil {
                 if let currentFav = favObjects?.first {
                     currentFav["ImageId"] = favs
-                    currentFav.saveInBackgroundWithBlock({ (saveStatus, saveError) in
+                    currentFav.saveInBackground({ (saveStatus, saveError) in
                         if saveStatus {
                             completion(saveSuccess: true, error: nil)
                         }else {
@@ -119,11 +119,11 @@ class ParseFetcher {
     }
     
     //Save favorites for first time
-    func setFavorites(username: String, favs: [String], completion: (saveSuccess: Bool, error: String?)-> Void) {
+    func setFavorites(_ username: String, favs: [String], completion: (saveSuccess: Bool, error: String?)-> Void) {
         let favObject = PFObject(className: "Favourites")
         favObject["UserId"] = username
         favObject["ImageId"] = favs
-        favObject.saveInBackgroundWithBlock { (saveStatus, saveError) in
+        favObject.saveInBackground { (saveStatus, saveError) in
             if saveStatus {
                 completion(saveSuccess: true, error: nil)
             }else {
@@ -133,14 +133,23 @@ class ParseFetcher {
     }
     
     //Fetch object by id
-    func getObjectByID(objectID: String, className: String, completion: (status: Bool, rseponse: Beach)-> Void){
+    func getObjectByID(_ objectID: String, className: String, completion: (status: Bool, rseponse: Beach)-> Void){
         
         let query = PFQuery(className: className)
-        query.getObjectInBackgroundWithId(objectID) { (responseObject, responseError) in
+        query.getObjectInBackground(withId: objectID) { (responseObject, responseError) in
             if let response = responseObject {
                 completion(status: true, rseponse: Beach(parseObject: response))
             }
         }
+    }
+    
+    //Logging functions
+    func DLog(message: String?, filename: String = #file, function: String = #function, line: Int = #line) {
+        #if DEBUG
+            print("[\(filename.lastPathComponent):\(line)] \(function) - \(message)")
+        #else
+            print("Not in debug mode :p")
+        #endif
     }
 
 }

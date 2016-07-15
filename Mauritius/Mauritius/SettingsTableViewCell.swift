@@ -16,19 +16,19 @@ class SettingsTableViewCell: UITableViewCell, UITextFieldDelegate {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        let paddingView = UIView(frame: CGRectMake(0, 0, 15, self.cellTextField.frame.height))
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: self.cellTextField.frame.height))
         self.cellTextField.rightView = paddingView
-        self.cellTextField.rightViewMode = UITextFieldViewMode.Always
+        self.cellTextField.rightViewMode = UITextFieldViewMode.always
         self.cellTextField.delegate = self
-        self.selectionStyle = .None
+        self.selectionStyle = .none
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }

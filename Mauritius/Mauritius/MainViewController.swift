@@ -30,14 +30,14 @@ class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
         collectionView.contentInset = UIEdgeInsets(top: 55, left: 0, bottom: 0, right: 0)
         
         //Registering custom Cell
-        self.collectionView.registerNib(UINib(nibName: "ImageCollectionCell", bundle: nil), forCellWithReuseIdentifier: "Cell")
+        self.collectionView.register(UINib(nibName: "ImageCollectionCell", bundle: nil), forCellWithReuseIdentifier: "Cell")
         self.view.addSubview(collectionView)
         collectionView!.decelerationRate = UIScrollViewDecelerationRateFast
         
         if self.revealViewController() != nil {
             self.view.addGestureRecognizer(revealViewController().panGestureRecognizer())
             self.revealViewController().rearViewRevealWidth = 290
-            let barButtonItem = UIBarButtonItem(image: UIImage(named: "menu.png"), style: .Plain, target: self.revealViewController(), action: #selector(SWRevealViewController.revealToggle(_:)))
+            let barButtonItem = UIBarButtonItem(image: UIImage(named: "menu.png"), style: .plain, target: self.revealViewController(), action: #selector(SWRevealViewController.revealToggle(_:)))
             navigationItem.leftBarButtonItem = barButtonItem
 
         }
@@ -80,7 +80,7 @@ class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
                         self.beachArray.append(item.linkId!)
                     }
                 }
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                DispatchQueue.main.async(execute: { () -> Void in
                     self.collectionView.reloadData()
                 })
                 if let firstItem = self.beachArray.first {
@@ -92,35 +92,36 @@ class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
     }
     
     
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return beachDict.count
   }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! ImageCollectionCell
-        if let currentItem = beachDict[beachArray[indexPath.item]] {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! ImageCollectionCell
+        if let currentItem = beachDict[beachArray[(indexPath as NSIndexPath).item]] {
             //Setting title for the images from description
+            //All this mess up due to junk sent from server
             let title = currentItem.first?.description
-            let index = title?.rangeOfString("-")?.startIndex
-            if let value = index {
-                cell.cellTitle.text = title?.substringFromIndex(value.successor())
-            }else {
-                cell.cellTitle.text = currentItem.first?.description
+            if let index = title?.range(of: "-")?.lowerBound {
+                if let value = title?.index(after: index) {
+                    cell.cellTitle.text = title?.substring(from: value)
+                }else {
+                    cell.cellTitle.text = currentItem.first?.description
+                }
             }
             
             //Fetch image from parse
             if let imageFile = currentItem.first?.imageFile {
-                imageFile.getDataInBackgroundWithBlock({ (imageData, error) -> Void in
+                imageFile.getDataInBackground({ (imageData, error) -> Void in
                     if error == nil {
                         if let result = imageData {
-                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            DispatchQueue.main.async {
                                 cell.currentImage = result
-                            })
-
+                            }
                         }
                     }
                 })
@@ -134,15 +135,15 @@ class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
         // Dispose of any resources that can be recreated.
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        UIView.animateWithDuration(0.1, animations: { () -> Void in
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        UIView.animate(withDuration: 0.1, animations: { () -> Void in
             
             let layout = self.collectionView.collectionViewLayout as! UltravisualLayout
-            let offset = layout.dragOffset * CGFloat(indexPath.item)
+            let offset = layout.dragOffset * CGFloat((indexPath as NSIndexPath).item)
             if collectionView.contentOffset.y != offset {
                 collectionView.setContentOffset(CGPoint(x: 0, y: offset), animated: true)
             }
-            self.selectedObject = self.beachDict[self.beachArray[indexPath.item]]
+            self.selectedObject = self.beachDict[self.beachArray[(indexPath as NSIndexPath).item]]
             
             }) { (isComplete) -> Void in
                 if isComplete {
@@ -163,19 +164,19 @@ class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
     }
     
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return [UIInterfaceOrientationMask.Portrait, .PortraitUpsideDown]
+        return [UIInterfaceOrientationMask.portrait, .portraitUpsideDown]
     }
     
     func errorMessageView() {
-        let messageView = UIView(frame: UIScreen.mainScreen().bounds)
+        let messageView = UIView(frame: UIScreen.main().bounds)
         messageView.backgroundColor = UIColor(red: 234/255, green: 234/255, blue: 234/255, alpha: 1.0)
-        let messageLabel = UILabel(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 25))
+        let messageLabel = UILabel(frame: CGRect(x: 0, y: 0, width: UIScreen.main().bounds.width, height: 25))
         messageLabel.center = messageView.center
         messageLabel.font = UIFont(name: "Helvetica", size: 18)
         messageLabel.text = "Coming Soon... Stay Tuned!"
-        messageLabel.textColor = UIColor.darkGrayColor()
-        messageLabel.textAlignment = .Center
-        let icon = UIImageView(frame: CGRectMake(0, 0, 60, 60))
+        messageLabel.textColor = UIColor.darkGray()
+        messageLabel.textAlignment = .center
+        let icon = UIImageView(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
         icon.image = UIImage(named: "coming_soon.png")
         icon.center.x = messageView.center.x
         icon.center.y = messageView.center.y - 60
@@ -196,7 +197,7 @@ class MainViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
     }
     
     override func viewDidLayoutSubviews() {
-        collectionView.frame.size.width = UIScreen.mainScreen().bounds.width
+        collectionView.frame.size.width = UIScreen.main().bounds.width
     }
 
 }

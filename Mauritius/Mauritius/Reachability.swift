@@ -26,49 +26,48 @@ public class Reachability: NSObject {
             return false
         }
         
-        let isReachable = flags == .Reachable
-        let needsConnection = flags == .ConnectionRequired
+        let isReachable = flags == .reachable
+        let needsConnection = flags == .connectionRequired
         
         return isReachable && !needsConnection
         
     }
     
-    class func networkErrorView(view: UIView) {
+    class func networkErrorView(_ view: UIView) {
         
-        let blurredView = UIVisualEffectView(effect: UIBlurEffect(style: .Light))
-        let errorMessage: UILabel = UILabel(frame: CGRectMake(0, 0, 320, 50))
+        let blurredView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
+        let errorMessage: UILabel = UILabel(frame: CGRect(x:0, y:0, width:320, height:50))
         let errorImage = UIImageView(image: UIImage(named: "error.png"))
-        let tryAgain = UIButton(frame: CGRectMake(0, 0, 100, 30))
-        
-        UIView.animateWithDuration(0.8, delay: 0.2, usingSpringWithDamping: 0.5, initialSpringVelocity: 1.0, options: .CurveEaseOut, animations: { () -> Void in
+        let tryAgain = UIButton(frame: CGRect(x:0, y:0, width:100, height:30))
+        UIView.animate(withDuration: 0.8, delay: 0.2, usingSpringWithDamping: 0.5, initialSpringVelocity: 1.0, options: .curveEaseOut, animations: { () -> Void in
             
-            blurredView.bounds = UIScreen.mainScreen().bounds
+            blurredView.bounds = UIScreen.main().bounds
             blurredView.center = view.center
-            blurredView.backgroundColor = UIColor.redColor()
+            blurredView.backgroundColor = UIColor.red()
             blurredView.tag = 100
             
             errorMessage.numberOfLines = 2
             errorMessage.text = "Oops! Please check your internet connection and try again."
-            errorMessage.textColor = UIColor.whiteColor()
-            errorMessage.textAlignment = NSTextAlignment.Center
+            errorMessage.textColor = UIColor.white()
+            errorMessage.textAlignment = NSTextAlignment.center
             errorMessage.center = blurredView.center
             errorImage.center = blurredView.center
             errorImage.center.y = blurredView.center.y - 80
             errorImage.alpha = 0
             
-            tryAgain.setTitle("Try Again", forState: UIControlState.Normal)
+            tryAgain.setTitle("Try Again", for: [])
             tryAgain.center = blurredView.center
             tryAgain.center.y = blurredView.center.y + 50
-            tryAgain.backgroundColor = UIColor.whiteColor()
-            tryAgain.setTitleColor(UIColor.redColor(), forState: .Normal)
+            tryAgain.backgroundColor = UIColor.white()
+            tryAgain.setTitleColor(UIColor.red(), for: [])
             tryAgain.layer.cornerRadius = 15
-            tryAgain.addTarget(MainViewController(), action: #selector(MainViewController.tryAgainAction), forControlEvents: .TouchUpInside)
+            tryAgain.addTarget(MainViewController(), action: #selector(MainViewController.tryAgainAction), for: .touchUpInside)
             view.addSubview(blurredView)
             blurredView.addSubview(tryAgain)
             blurredView.addSubview(errorMessage)
             
             }) { (Bool) -> Void in
-                UIView.animateWithDuration(0.2, delay: 0, options: .CurveEaseIn, animations: { () -> Void in
+                UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseIn, animations: { () -> Void in
                     blurredView.addSubview(errorImage)
                     errorImage.alpha = 1
                     }, completion: nil)

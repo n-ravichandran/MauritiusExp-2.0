@@ -33,7 +33,7 @@ class PhotosViewController: UIViewController, MFMailComposeViewControllerDelegat
     
     var leftSwipe = UISwipeGestureRecognizer()
     var rightSwipe = UISwipeGestureRecognizer()
-    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     var currentFavs: [String]?
     
     
@@ -46,12 +46,12 @@ class PhotosViewController: UIViewController, MFMailComposeViewControllerDelegat
         self.containerView.layer.cornerRadius = 4
         self.imageView.layer.cornerRadius = 4
         self.imageView.clipsToBounds = true
-        self.imageView.userInteractionEnabled = true
+        self.imageView.isUserInteractionEnabled = true
 //        self.imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(PhotosViewController.photoViewer)))
         self.leftSwipe = UISwipeGestureRecognizer(target: self, action: #selector(PhotosViewController.loadNextImage))
-        self.leftSwipe.direction = UISwipeGestureRecognizerDirection.Left
+        self.leftSwipe.direction = UISwipeGestureRecognizerDirection.left
         self.rightSwipe = UISwipeGestureRecognizer(target: self, action: #selector(PhotosViewController.loadPreviousImage))
-        self.rightSwipe.direction = UISwipeGestureRecognizerDirection.Right
+        self.rightSwipe.direction = UISwipeGestureRecognizerDirection.right
         self.imageView.addGestureRecognizer(leftSwipe)
         self.imageView.addGestureRecognizer(rightSwipe)
         self.enquireNow.layer.cornerRadius = 4
@@ -73,28 +73,29 @@ class PhotosViewController: UIViewController, MFMailComposeViewControllerDelegat
         //Title for the view
         if let object = currentObjects?.first {
             if let newTitle = object.description {
-                let index = newTitle.rangeOfString("-")?.startIndex
-                if let value = index {
-                    self.title = newTitle.substringFromIndex(value.successor())
-                }else {
-                    self.title = newTitle
+                if let index = newTitle.range(of: "-")?.lowerBound {
+                    if let value = title?.index(after: index) {
+                        self.title = newTitle.substring(from: value)
+                    }else {
+                        self.title = newTitle
+                    }
                 }
             }
         }
         
         //Adding actions to buttons
-        self.nextButton.addTarget(self, action: #selector(PhotosViewController.loadNextImage), forControlEvents: .TouchUpInside)
-        self.previousButton.addTarget(self, action: #selector(PhotosViewController.loadPreviousImage), forControlEvents: .TouchUpInside)
-        self.favouriteButton.addTarget(self, action: #selector(PhotosViewController.favouriteAction), forControlEvents: .TouchUpInside)
-        self.directionsButton.addTarget(self, action: #selector(PhotosViewController.showDirections), forControlEvents: .TouchUpInside)
-        self.shareButton.addTarget(self, action: #selector(PhotosViewController.shareImage), forControlEvents: .TouchUpInside)
+        self.nextButton.addTarget(self, action: #selector(PhotosViewController.loadNextImage), for: .touchUpInside)
+        self.previousButton.addTarget(self, action: #selector(PhotosViewController.loadPreviousImage), for: .touchUpInside)
+        self.favouriteButton.addTarget(self, action: #selector(PhotosViewController.favouriteAction), for: .touchUpInside)
+        self.directionsButton.addTarget(self, action: #selector(PhotosViewController.showDirections), for: .touchUpInside)
+        self.shareButton.addTarget(self, action: #selector(PhotosViewController.shareImage), for: .touchUpInside)
         
         if let count = currentObjects?.count {
             self.indexLabel.text = "\(index+1)/\(count)"
         }
         
         //Enquire now button
-        enquireNow.addTarget(self, action: #selector(self.sendEnquireMail(_:)), forControlEvents: .TouchUpInside)
+        enquireNow.addTarget(self, action: #selector(self.sendEnquireMail(_:)), for: .touchUpInside)
         
         //Get lat & long for directions
         self.getGeopoints()
@@ -110,13 +111,13 @@ class PhotosViewController: UIViewController, MFMailComposeViewControllerDelegat
         if let category = currentObjects?.first {
             if let object: String = category.linkId {
                 let query = PFQuery(className: "Categories")
-                query.getObjectInBackgroundWithId(object, block: { (response, error) -> Void in
+                query.getObjectInBackground(withId: object, block: { (response, error) -> Void in
                     
                     if error == nil {
                         let cat:Category = Category(categoryObject: response!)
                         if let link = cat.webLink {
                             self.weblink = link
-                            self.directionsButton.setImage(UIImage(named: "open.png"), forState: .Normal)
+                            self.directionsButton.setImage(UIImage(named: "open.png"), for: [])
                         }
                         self.lattitude = cat.lattitude
                         self.longitude = cat.longitude
@@ -129,22 +130,22 @@ class PhotosViewController: UIViewController, MFMailComposeViewControllerDelegat
     }
     
     //Loading image
-    func loadImageView(imageFile: PFFile) {
+    func loadImageView(_ imageFile: PFFile) {
         
-        imageFile.getDataInBackgroundWithBlock { (imageData, responseError) -> Void in
+        imageFile.getDataInBackground { (imageData, responseError) -> Void in
             
             if responseError == nil {
                 if let result = imageData {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    DispatchQueue.main.async {
                         self.imageView.image = UIImage(data: result)
                         self.activityIndicator.stopAnimating()
                         self.imageView.alpha = 1.0
-                    })
+                    }
                 }
             } else if responseError?.code == 100 {
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                DispatchQueue.main.async { () -> Void in
                     //Call to Error connection view
-                })
+                }
             }
         }
     }
@@ -158,7 +159,7 @@ class PhotosViewController: UIViewController, MFMailComposeViewControllerDelegat
             self.markFavorites()
             self.activityIndicator.startAnimating()
             self.imageView.alpha = 0.6
-            self.previousButton.userInteractionEnabled = true
+            self.previousButton.isUserInteractionEnabled = true
             self.previousButton.alpha = 1.0
             self.imageView.addGestureRecognizer(rightSwipe)
             self.indexLabel.text = "\(index+1)/\(count)"
@@ -171,7 +172,7 @@ class PhotosViewController: UIViewController, MFMailComposeViewControllerDelegat
         
         if index == count - 1 {
             self.imageView.removeGestureRecognizer(leftSwipe)
-            self.nextButton.userInteractionEnabled = false
+            self.nextButton.isUserInteractionEnabled = false
             self.nextButton.alpha = 0.8
         }
         
@@ -183,7 +184,7 @@ class PhotosViewController: UIViewController, MFMailComposeViewControllerDelegat
             self.markFavorites()
             self.activityIndicator.startAnimating()
             self.imageView.alpha = 0.6
-            self.nextButton.userInteractionEnabled = true
+            self.nextButton.isUserInteractionEnabled = true
             self.nextButton.alpha = 1.0
             self.imageView.addGestureRecognizer(leftSwipe)
             if let count = currentObjects?.count {
@@ -197,7 +198,7 @@ class PhotosViewController: UIViewController, MFMailComposeViewControllerDelegat
         }
         
         if index == 0 {
-            self.previousButton.userInteractionEnabled = false
+            self.previousButton.isUserInteractionEnabled = false
             self.previousButton.alpha = 0.8
             self.imageView.removeGestureRecognizer(rightSwipe)
         }
@@ -211,9 +212,9 @@ class PhotosViewController: UIViewController, MFMailComposeViewControllerDelegat
     func markFavorites() {
         if currentFavs != nil {
             if currentFavs!.contains(currentObjects![index].objectId!) {
-                self.favouriteButton.setImage(UIImage(named: "like-filled.png"), forState: .Normal)
+                self.favouriteButton.setImage(UIImage(named: "like-filled.png"), for: UIControlState())
             }else {
-                self.favouriteButton.setImage(UIImage(named: "like.png"), forState: .Normal)
+                self.favouriteButton.setImage(UIImage(named: "like.png"), for: UIControlState())
             }
         }
     }
@@ -293,11 +294,11 @@ class PhotosViewController: UIViewController, MFMailComposeViewControllerDelegat
     
     //Adding favourites
     func favouriteAction() {
-        favouriteButton.setImage(UIImage(named: "like-filled.png"), forState: .Normal)
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        guard let email = userDefaults.objectForKey("username") as? String else {
+        favouriteButton.setImage(UIImage(named: "like-filled.png"), for: UIControlState())
+        let userDefaults = UserDefaults.standard()
+        guard let email = userDefaults.object(forKey: "username") as? String else {
             let alertView = UNAlertView(title: "Alert", message: "Please add your email to add favourites")
-            favouriteButton.setImage(UIImage(named: "like.png"), forState: .Normal)
+            favouriteButton.setImage(UIImage(named: "like.png"), for: UIControlState())
             alertView.addButton("Cancel", backgroundColor: UIColor(red: 55/255, green: 55/255, blue: 55/255, alpha: 1.0), action: {})
             alertView.addButton("Add Email", backgroundColor: UIColor(red: 55/255, green: 55/255, blue: 55/255, alpha: 1.0), action: { () -> Void in
                 let settingsVC: SettingsViewController = SettingsViewController()
@@ -314,9 +315,9 @@ class PhotosViewController: UIViewController, MFMailComposeViewControllerDelegat
                 //Save existing favorites
                 ParseFetcher.sharedInstance.saveFavorites(email, favs: currentFavs!, completion: { (saveSuccess, error) in
                     if saveSuccess {
-                        print("Favs saved to server")
+                        ParseFetcher.sharedInstance.DLog(message:"Favs saved to server")
                     }else {
-                        print(error)
+                        ParseFetcher.sharedInstance.DLog(message: error)
                     }
                 })
             }
@@ -326,9 +327,9 @@ class PhotosViewController: UIViewController, MFMailComposeViewControllerDelegat
                 currentFavs?.append(imageId)
                 ParseFetcher.sharedInstance.setFavorites(email, favs: currentFavs!, completion: { (saveSuccess, error) in
                     if saveSuccess{
-                        print("Favs saved to server **")
+                        ParseFetcher.sharedInstance.DLog(message:"Favs saved to server **")
                     }else {
-                        print(error)
+                        ParseFetcher.sharedInstance.DLog(message:error)
                     }
                 })
             }
@@ -340,7 +341,7 @@ class PhotosViewController: UIViewController, MFMailComposeViewControllerDelegat
     func shareImage() {
         let actitvityVC = UIActivityViewController(activityItems: [""], applicationActivities: nil)
         
-        navigationController?.presentViewController(actitvityVC, animated: true, completion: nil)
+        navigationController?.present(actitvityVC, animated: true, completion: nil)
     }
     
     //Opening maps to show directions
@@ -350,22 +351,22 @@ class PhotosViewController: UIViewController, MFMailComposeViewControllerDelegat
             alertView.addButton("Google Maps", backgroundColor: UIColor(red: 55/255, green: 55/255, blue: 55/255, alpha: 1.0)) { () -> Void in
                 
                 //Google Maps
-                UIApplication.sharedApplication().openURL(NSURL(string:"comgooglemaps://?saddr=&daddr=\(self.lattitude!),\(self.longitude!)&directionsmode=driving")!)
+                UIApplication.shared().openURL(URL(string:"comgooglemaps://?saddr=&daddr=\(self.lattitude!),\(self.longitude!)&directionsmode=driving")!)
             }
             alertView.addButton("Apple Maps", backgroundColor: UIColor(red: 55/255, green: 55/255, blue: 55/255, alpha: 1.0)) { () -> Void in
                 
                 //Apple Maps
-                UIApplication.sharedApplication().openURL(NSURL(string:"http://maps.apple.com/?daddr=\(self.lattitude!),\(self.longitude!)&saddr=")!)
+                UIApplication.shared().openURL(URL(string:"http://maps.apple.com/?daddr=\(self.lattitude!),\(self.longitude!)&saddr=")!)
             }
 
             alertView.addButton("Cancel", backgroundColor: UIColor(red: 55/255, green: 55/255, blue: 55/255, alpha: 1.0), action: {})
-            alertView.buttonAlignment = UNButtonAlignment.Vertical
+            alertView.buttonAlignment = UNButtonAlignment.vertical
             alertView.show()
         } else {
             let alertView = UNAlertView(title: "Open in Safari", message: "")
             alertView.addButton("Open", backgroundColor: UIColor(red: 55/255, green: 55/255, blue: 55/255, alpha: 1.0)) { () -> Void in
                 //Open url in browser
-                UIApplication.sharedApplication().openURL(NSURL(string: self.weblink!)!)
+                UIApplication.shared().openURL(URL(string: self.weblink!)!)
             }
 
             alertView.addButton("Cancel", backgroundColor: UIColor(red: 55/255, green: 55/255, blue: 55/255, alpha: 1.0), action: {})
@@ -374,19 +375,19 @@ class PhotosViewController: UIViewController, MFMailComposeViewControllerDelegat
     }
     
     //Send mail function
-    func sendEnquireMail(sender: UIButton) {
+    func sendEnquireMail(_ sender: UIButton) {
         
         let mailPicker = MFMailComposeViewController()
         mailPicker.mailComposeDelegate = self
         mailPicker.setToRecipients(["info@planetexplored.com"])
         mailPicker.setSubject("Mauritius Attractions - Enquiry")
         mailPicker.setMessageBody("I'm interested in this place. I would love to hear more about this.", isHTML: false)
-        self.presentViewController(mailPicker, animated: true, completion: nil)
+        self.present(mailPicker, animated: true, completion: nil)
     }
     
     func fetchAllUserFavs() {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        if let email = userDefaults.objectForKey("username") as? String {
+        let userDefaults = UserDefaults.standard()
+        if let email = userDefaults.object(forKey: "username") as? String {
             ParseFetcher.sharedInstance.getFavorites(email, completion: { (favroites) in
                 if favroites != nil {
                     if let favs = favroites?.first?["ImageId"] as? [String] {

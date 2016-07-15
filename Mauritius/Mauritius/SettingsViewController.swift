@@ -16,7 +16,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     var isPushed: Bool = false
     var cellData: NSMutableArray?
     var isExpanded: Bool = false
-    let userDefaults = NSUserDefaults.standardUserDefaults()
+    let userDefaults = UserDefaults.standard()
     var isEditable = false
     let aboutContent = "Mauritius Explored is the only app where you can browse through 100+ beautiful beaches, mountain tracks and exotic places and plan your trip. \nThis unique app is designed to showcase Mauritius's best assets and guide you where you want to explore through a live map.\nHave you wondered where are the best beaches in Mauritius, where are the places of interest everyone talks about, do you have a guide? Now you can explore all the beaches around the island and much more, from north to south and everything in between. \nMauritius Explored will be your personal tour guide  without any hidden secrets."
     let version = "Version 2.0"
@@ -30,25 +30,25 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         self.tableView.delegate = self
         self.tableView.dataSource = self
         
-        self.tableView.registerNib(UINib(nibName: "SettingsTableViewCell", bundle: nil), forCellReuseIdentifier: "SettingsCell")
-        self.tableView.registerNib(UINib(nibName: "LanguageCell", bundle: nil), forCellReuseIdentifier: "LanguageCell")
+        self.tableView.register(UINib(nibName: "SettingsTableViewCell", bundle: nil), forCellReuseIdentifier: "SettingsCell")
+        self.tableView.register(UINib(nibName: "LanguageCell", bundle: nil), forCellReuseIdentifier: "LanguageCell")
         
         if !isPushed {
             if self.revealViewController() != nil {
                 self.view.addGestureRecognizer(revealViewController().panGestureRecognizer())
-                let barButton = UIBarButtonItem(image: UIImage(named: "menu.png"), style: .Plain, target: self.revealViewController(), action: #selector(SWRevealViewController.revealToggle(_:)))
+                let barButton = UIBarButtonItem(image: UIImage(named: "menu.png"), style: .plain, target: self.revealViewController(), action: #selector(SWRevealViewController.revealToggle(_:)))
                 self.navigationItem.leftBarButtonItem = barButton
             }
         }
         //Loading cell data from plist
         self.loadCellData()
         
-        let editButton = UIBarButtonItem(title: "Edit", style: .Plain, target: self, action: #selector(self.enableEdit(_:)))
+        let editButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(self.enableEdit(_:)))
         self.navigationItem.rightBarButtonItem = editButton
     }
     
     func loadCellData() {
-        if let path = NSBundle.mainBundle().pathForResource("SettingsPage", ofType: "plist") {
+        if let path = Bundle.main().pathForResource("SettingsPage", ofType: "plist") {
             cellData = NSMutableArray(contentsOfFile: path)
         }
     }
@@ -58,7 +58,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         // Dispose of any resources that can be recreated.
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         if let data = cellData {
             return data.count
         }else {
@@ -66,7 +66,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let data = cellData![section] as? NSDictionary {
             return data["cellItems"]!.count
         }else {
@@ -74,12 +74,12 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if let data = cellData![indexPath.section] as? NSDictionary {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if let data = cellData![(indexPath as NSIndexPath).section] as? NSDictionary {
             if data["type"] as! Int == 0 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("SettingsCell", forIndexPath: indexPath) as! SettingsTableViewCell
-                cell.cellTextField.tag = indexPath.row
-                if let cellText = (data["cellItems"] as! NSArray)[indexPath.row] as? String {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsCell", for: indexPath) as! SettingsTableViewCell
+                cell.cellTextField.tag = (indexPath as NSIndexPath).row
+                if let cellText = (data["cellItems"] as! NSArray)[(indexPath as NSIndexPath).row] as? String {
                     cell.cellLable.text = cellText
                     cell.cellTextField.placeholder = cellText
                     //populating textfields
@@ -87,7 +87,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                         //Add name from defualts
                     }else if cellText == "Email" {
                         //Add email from defaults
-                        if let email = userDefaults.objectForKey("username") as? String {
+                        if let email = userDefaults.object(forKey: "username") as? String {
                             cell.cellTextField.text = email
                         }
                     }else {
@@ -97,17 +97,17 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                     cell.cellTextField.delegate = self
                     if !isEditable{
                         //Disable user interaction when edit not enabled
-                        cell.cellTextField.userInteractionEnabled = false
+                        cell.cellTextField.isUserInteractionEnabled = false
                     }else {
                         //Allow user interaction when edit is enabled
-                        cell.cellTextField.userInteractionEnabled = true
+                        cell.cellTextField.isUserInteractionEnabled = true
                     }
                 }
                 return cell
             } else if data["type"] as! Int == 2 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("LanguageCell", forIndexPath: indexPath) as! LanguageCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "LanguageCell", for: indexPath) as! LanguageCell
                 //Setting language
-                if let lang = userDefaults.objectForKey("currentLanguage") as? String{
+                if let lang = userDefaults.object(forKey: "currentLanguage") as? String{
                     //Setting from user prefernece saved
                     cell.languageLabel.text = lang
                 } else {
@@ -122,9 +122,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                 return cell
             } else {
                 let cell = UITableViewCell()
-                if let cellText = (data["cellItems"] as? NSArray)![indexPath.row] as? String {
+                if let cellText = (data["cellItems"] as? NSArray)![(indexPath as NSIndexPath).row] as? String {
                     cell.textLabel?.text = cellText
-                    cell.accessoryType = .DisclosureIndicator
+                    cell.accessoryType = .disclosureIndicator
                 }
                 return cell
             }
@@ -133,78 +133,74 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if let data = cellData![indexPath.section] as? NSDictionary {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let data = cellData![(indexPath as NSIndexPath).section] as? NSDictionary {
             if data["type"] as! Int == 2 {
                 if isExpanded {
                     isExpanded = false
                 }else {
                     isExpanded = true
                 }
-                tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+                tableView.reloadRows(at: [indexPath], with: .fade)
             }
         }
-        if indexPath.section == 2 {
+        if (indexPath as NSIndexPath).section == 2 {
             let alert = UNAlertView(title: version, message: aboutContent)
             alert.addButton("Dismiss", backgroundColor: UIColor(red: 55/255, green: 55/255, blue: 55/255, alpha: 1.0), action: {
                 //Deselect tableViewCell
-                tableView.deselectRowAtIndexPath(indexPath, animated: true)
+                tableView.deselectRow(at: indexPath, animated: true)
             })
             alert.show()
             
-        }else if indexPath.section == 3 {
+        }else if (indexPath as NSIndexPath).section == 3 {
             let alert = UNAlertView(title: "mailTo:", message: "info@planetexplored.com")
             alert.addButton("Dismiss", backgroundColor: UIColor(red: 55/255, green: 55/255, blue: 55/255, alpha: 1.0), action: {
                 //Deselect tableViewCell
-                tableView.deselectRowAtIndexPath(indexPath, animated: true)
+                tableView.deselectRow(at: indexPath, animated: true)
                 
             })
             alert.show()
         }
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if let data = cellData![indexPath.section] as? NSDictionary {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        var cellHeight: CGFloat = 44
+        if let data = cellData![(indexPath as NSIndexPath).section] as? NSDictionary {
             if data["type"] as! Int == 2 {
                 if self.isExpanded {
                     //Height for expanded cell
-                    return 240
+                    cellHeight = 240
                 }else {
                     //Height for closed cell
-                    return 44
+                    cellHeight = 44
                 }
-            } else {
-                //Height for other cells
-                return 44
             }
-        } else {
-            return 44
         }
-        
+        return cellHeight
     }
     
     
-    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         
         if let data = cellData {
             if section == data.count - 1 {
-                let footerView = UITableViewHeaderFooterView(frame: CGRectMake(0, 0, tableView.bounds.width, 55))
+                let footerView = UITableViewHeaderFooterView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 55))
                 let contentLabel = UILabel(frame: footerView.bounds)
                 contentLabel.center = footerView.center
                 contentLabel.font = UIFont(name: "Helvetica", size: 13)
-                contentLabel.textAlignment = NSTextAlignment.Center
+                contentLabel.textAlignment = NSTextAlignment.center
                 
                 let footerText = "Designed and Developed by Niranjan Ravichandran" as NSString
-                contentLabel.textColor = UIColor.lightGrayColor()
+                contentLabel.textColor = UIColor.lightGray()
                 //Creating attributed String
                 let attributedText = NSMutableAttributedString(string: footerText as String)
-                attributedText.addAttributes([NSUnderlineStyleAttributeName: 1], range: footerText.rangeOfString("Niranjan Ravichandran"))
-                attributedText.addAttributes([NSForegroundColorAttributeName: UIColor.grayColor()], range: footerText.rangeOfString("Niranjan Ravichandran"))
+                attributedText.addAttributes([NSUnderlineStyleAttributeName: 1], range: footerText.range(of: "Niranjan Ravichandran"))
+                attributedText.addAttributes([NSForegroundColorAttributeName: UIColor.gray()], range: footerText.range(of: "Niranjan Ravichandran"))
                 contentLabel.attributedText = attributedText
                 
                 footerView.addSubview(contentLabel)
                 contentLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.openInSafari)))
-                contentLabel.userInteractionEnabled = true
+                contentLabel.isUserInteractionEnabled = true
                 return footerView
             }else {
                 return nil
@@ -215,7 +211,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         
     }
     
-    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         if let data = cellData {
             if section == data.count - 1 {
                 return 55
@@ -227,8 +223,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
-    func textFieldShouldEndEditing(textField: UITextField) -> Bool {
-        print("$$$$In")
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         var name: String?
         var email: String?
         var phone: String?
@@ -254,9 +249,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             
             ParseFetcher.sharedInstance.checkUser(email!) { (userExists) in
                 if userExists {
-                    self.userDefaults.setObject(email, forKey: "username")
+                    self.userDefaults.set(email, forKey: "username")
                 }else {
-                    print("$$$$In")
                     //Signup User
                     self.signUpUser(email!, name: name, phone: phone)
                 }
@@ -265,13 +259,13 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         return true
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         self.tableView.endEditing(true)
         
     }
     
-    func enableEdit(sender: UIBarButtonItem) {
+    func enableEdit(_ sender: UIBarButtonItem) {
         if !isEditable {
             isEditable = true
             sender.title = "Save"
@@ -284,12 +278,12 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func openInSafari() {
-        let url = NSURL(string: "http://nravichan.paperplane.io")
-        UIApplication.sharedApplication().openURL(url!)
+        let url = URL(string: "http://nravichan.paperplane.io")
+        UIApplication.shared().openURL(url!)
     }
     
     //Sign up new user
-    func signUpUser(email: String, name: String?, phone: String?) {
+    func signUpUser(_ email: String, name: String?, phone: String?) {
         let newUser = PFUser()
         newUser.email = email
         newUser.username = email
@@ -305,7 +299,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         ParseFetcher.sharedInstance.createUser(newUser, completion: { (status) in
             if status{
                 //Persist user email after signup
-                self.userDefaults.setObject(newUser.email, forKey: "username")
+                self.userDefaults.set(newUser.email, forKey: "username")
             }
         })
     }

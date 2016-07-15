@@ -16,8 +16,8 @@ private let kShadowOpacity: Float    = 0.15
 private var autoDismiss: Bool        = true
 
 public enum UNButtonAlignment {
-    case Horizontal
-    case Vertical
+    case horizontal
+    case vertical
 }
 
 final public class UNAlertView: UIView {
@@ -29,10 +29,10 @@ final public class UNAlertView: UIView {
     private var buttons           = [UNAlertButton]()
     
     // Message alignment
-    public var messageAlignment   = NSTextAlignment.Center
+    public var messageAlignment   = NSTextAlignment.center
     
     // Button alignment
-    public var buttonAlignment    = UNButtonAlignment.Horizontal
+    public var buttonAlignment    = UNButtonAlignment.horizontal
     
     // Fonts
     public var titleFont: UIFont?
@@ -50,47 +50,47 @@ final public class UNAlertView: UIView {
     
     // Initialize with a title and a message
     public init(title: String, message: String) {
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
         
         titleLabel.text       = title
         messageLabel.text     = message
         
-        self.frame            = UIScreen.mainScreen().bounds
+        self.frame            = UIScreen.main().bounds
         self.backgroundColor  = UIColor(white: 0, alpha: 0.2)
         containerView.layer.cornerRadius = kCornerRadius
         containerView.layer.masksToBounds      = true
         
-        shadowView.layer.shadowColor   = UIColor.blackColor().CGColor
-        shadowView.layer.shadowOffset  = CGSizeZero
+        shadowView.layer.shadowColor   = UIColor.black().cgColor
+        shadowView.layer.shadowOffset  = CGSize.zero
         shadowView.layer.shadowOpacity = kShadowOpacity
         shadowView.layer.shadowRadius  = kCornerRadius
         
     }
     
     // Add a button with a title and an action
-    public func addButton(title:String, action:()->Void) {
+    public func addButton(_ title:String, action:()->Void) {
         
         let btn    = UNAlertButton(title: title)
         btn.action = action
-        btn.addTarget(self, action:#selector(UNAlertView.buttonTapped(_:)), forControlEvents:.TouchUpInside)
+        btn.addTarget(self, action:#selector(UNAlertView.buttonTapped(_:)), for:.touchUpInside)
         buttons.append(btn)
     }
     
     // Add a button with a title, a background color, a font color and an action
-    public func addButton(title:String, backgroundColor: UIColor, action:()->Void) {
+    public func addButton(_ title:String, backgroundColor: UIColor, action:()->Void) {
         
         let btn    = UNAlertButton(title: title, backgroundColor: backgroundColor, fontColor: nil)
         btn.action = action
-        btn.addTarget(self, action:#selector(UNAlertView.buttonTapped(_:)), forControlEvents:.TouchUpInside)
+        btn.addTarget(self, action:#selector(UNAlertView.buttonTapped(_:)), for:.touchUpInside)
         buttons.append(btn)
     }
     
     // Add a button with a title, a background color, a font color and an action
-    public func addButton(title:String, backgroundColor: UIColor, fontColor: UIColor, action:()->Void) {
+    public func addButton(_ title:String, backgroundColor: UIColor, fontColor: UIColor, action:()->Void) {
         
         let btn    = UNAlertButton(title: title, backgroundColor: backgroundColor, fontColor: fontColor)
         btn.action = action
-        btn.addTarget(self, action:#selector(UNAlertView.buttonTapped(_:)), forControlEvents:.TouchUpInside)
+        btn.addTarget(self, action:#selector(UNAlertView.buttonTapped(_:)), for:.touchUpInside)
         buttons.append(btn)
     }
     
@@ -105,7 +105,7 @@ final public class UNAlertView: UIView {
         }
         
         // Add self to keyWindow
-        if let rv = UIApplication.sharedApplication().keyWindow {
+        if let rv = UIApplication.shared().keyWindow {
             
             if rv.viewWithTag(kUNAlertViewTag) == nil {
                 
@@ -126,15 +126,15 @@ final public class UNAlertView: UIView {
             
             titleLabel.frame = CGRect(x: 22, y: currentContentHeight, width: kContainerWidth-44, height: 25)
             currentContentHeight = getBottomPos(titleLabel)
-            titleLabel.textAlignment = NSTextAlignment.Center
-            titleLabel.font = (titleFont != nil) ? titleFont : UIFont.boldSystemFontOfSize(16)
+            titleLabel.textAlignment = NSTextAlignment.center
+            titleLabel.font = (titleFont != nil) ? titleFont : UIFont.boldSystemFont(ofSize: 16)
             containerView.addSubview(titleLabel)
         }
         
         
         // Message
         messageLabel.numberOfLines = 0
-        messageLabel.font = (messageFont != nil) ? messageFont : UIFont.systemFontOfSize(16)
+        messageLabel.font = (messageFont != nil) ? messageFont : UIFont.systemFont(ofSize: 16)
         let messageSize    = messageLabel.sizeThatFits(CGSize(width: kContainerWidth-44, height: 9999))
         messageLabel.frame = CGRect(x: 22, y: currentContentHeight + 10, width: kContainerWidth-44, height: messageSize.height)
         currentContentHeight = getBottomPos(messageLabel)
@@ -149,7 +149,7 @@ final public class UNAlertView: UIView {
             
             let btn   = buttons[i]
             
-            if buttonAlignment == UNButtonAlignment.Horizontal {
+            if buttonAlignment == UNButtonAlignment.horizontal {
                 
                 btn.frame  = CGRect(x: (width + space)*CGFloat(i), y: currentContentHeight + 15, width: width, height: kButtonHeight)
                 
@@ -169,20 +169,20 @@ final public class UNAlertView: UIView {
         // Shadow View & Container View
         shadowView.frame     = CGRect(x: 0, y: 0, width: kContainerWidth, height: currentContentHeight)
         shadowView.center    = self.center
-        containerView.frame  = CGRect(origin: CGPointZero, size: shadowView.frame.size)
-        containerView.backgroundColor = UIColor.whiteColor()
+        containerView.frame  = CGRect(origin: CGPoint.zero, size: shadowView.frame.size)
+        containerView.backgroundColor = UIColor.white()
         shadowView.addSubview(containerView)
         self.addSubview(shadowView)
         
         // Apply a fade-in animation
         self.alpha     = 0.0
-        self.transform = CGAffineTransformMakeScale(1.3, 1.3)
+        self.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
         
-        UIView.animateWithDuration(0.2,
+        UIView.animate(withDuration: 0.2,
             delay: 0.0,
-            options: UIViewAnimationOptions.CurveEaseOut,
+            options: UIViewAnimationOptions.curveEaseOut,
             animations: {
-                self.transform = CGAffineTransformMakeScale(1.0, 1.0)
+                self.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
                 self.alpha = 1.0
             },
             completion: {(finished) in
@@ -196,11 +196,11 @@ final public class UNAlertView: UIView {
     private func dismiss() {
         
         // Apply a fade-out animation
-        UIView.animateWithDuration(0.18,
+        UIView.animate(withDuration: 0.18,
             delay: 0.0,
-            options: UIViewAnimationOptions.CurveEaseOut,
+            options: UIViewAnimationOptions.curveEaseOut,
             animations: {
-                self.containerView.transform = CGAffineTransformMakeScale(0.8, 0.8)
+                self.containerView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
                 self.alpha = 0.0
             },
             completion: {(finished) in
@@ -209,7 +209,7 @@ final public class UNAlertView: UIView {
         )
     }
     
-    func buttonTapped(btn:UNAlertButton) {
+    func buttonTapped(_ btn:UNAlertButton) {
         
         btn.action()
         if (autoDismiss) {
@@ -220,11 +220,11 @@ final public class UNAlertView: UIView {
     func dismissAlert() {
         dismiss()
     }
-    func setAutoDismiss(autoStatus: Bool) {
+    func setAutoDismiss(_ autoStatus: Bool) {
         autoDismiss = autoStatus
     }
     
-    private func getBottomPos(view: UIView) -> CGFloat {
+    private func getBottomPos(_ view: UIView) -> CGFloat {
         
         return view.frame.origin.y + view.frame.height
     }
@@ -236,11 +236,11 @@ internal final class UNAlertButton: UIButton {
     private var target:AnyObject!
     private var action:(()->Void)!
     
-    override var highlighted: Bool {
+    override var isHighlighted: Bool {
         
         didSet {
             
-            self.alpha = (highlighted) ? 0.8 : 1.0
+            self.alpha = (isHighlighted) ? 0.8 : 1.0
         }
     }
     
@@ -254,10 +254,10 @@ internal final class UNAlertButton: UIButton {
     
     init(title: String, backgroundColor: UIColor?, fontColor: UIColor?) {
         
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
         self.backgroundColor = (backgroundColor != nil) ? backgroundColor! : self.tintColor
-        self.setTitle(title, forState: .Normal)
-        self.setTitleColor((fontColor != nil) ? fontColor! : UIColor.whiteColor() , forState: .Normal)
+        self.setTitle(title, for: UIControlState())
+        self.setTitleColor((fontColor != nil) ? fontColor! : UIColor.white() , for: UIControlState())
     }
     
 }
@@ -265,19 +265,19 @@ internal final class UNAlertButton: UIButton {
 // Extension
 internal extension UIColor {
     
-    class func hex (hexStr : NSString, alpha : CGFloat) -> UIColor {
+    class func hex (_ hexStr : NSString, alpha : CGFloat) -> UIColor {
         
-        let hexStr  = hexStr.stringByReplacingOccurrencesOfString("#", withString: "")
-        let scanner = NSScanner(string: hexStr as String)
+        let hexStr  = hexStr.replacingOccurrences(of: "#", with: "")
+        let scanner = Scanner(string: hexStr as String)
         var color: UInt32 = 0
-        if scanner.scanHexInt(&color) {
+        if scanner.scanHexInt32(&color) {
             let r = CGFloat((color & 0xFF0000) >> 16) / 255.0
             let g = CGFloat((color & 0x00FF00) >> 8) / 255.0
             let b = CGFloat(color & 0x0000FF) / 255.0
             return UIColor(red:r,green:g,blue:b,alpha:alpha)
         } else {
             print("invalid hex string", terminator: "")
-            return UIColor.whiteColor()
+            return UIColor.white()
         }
     }
 }

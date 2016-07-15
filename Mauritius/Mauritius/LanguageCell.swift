@@ -14,7 +14,7 @@ class LanguageCell: UITableViewCell, UIPickerViewDataSource, UIPickerViewDelegat
     @IBOutlet var languagePicker: UIPickerView!
     
     let languages: [String] = ["Chinese", "English", "French", "German", "Italian"]
-    let userDefaults = NSUserDefaults.standardUserDefaults()
+    let userDefaults = UserDefaults.standard()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -23,30 +23,30 @@ class LanguageCell: UITableViewCell, UIPickerViewDataSource, UIPickerViewDelegat
         self.languagePicker.dataSource = self
     }
     
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
     
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return self.languages.count
     }
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         
         return self.languages[row]
     }
     
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.languageLabel.text = languages[row]
-        userDefaults.setInteger(row + 1, forKey: "currentLanguage")
+        userDefaults.set(row + 1, forKey: "currentLanguage")
         
         APP_DEFAULT_LANGUAGE = Language(rawValue: row+1)!
         
-        NSNotificationCenter.defaultCenter().postNotificationName("languageChange", object: nil)
+        NotificationCenter.default().post(name: Notification.Name(rawValue: "languageChange"), object: nil)
     }
     
 }

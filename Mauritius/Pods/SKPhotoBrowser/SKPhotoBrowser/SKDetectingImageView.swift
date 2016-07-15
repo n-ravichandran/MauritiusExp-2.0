@@ -9,8 +9,8 @@
 import UIKit
 
 @objc protocol SKDetectingImageViewDelegate {
-    func handleImageViewSingleTap(touchPoint: CGPoint)
-    func handleImageViewDoubleTap(touchPoint: CGPoint)
+    func handleImageViewSingleTap(_ touchPoint: CGPoint)
+    func handleImageViewDoubleTap(_ touchPoint: CGPoint)
 }
 
 class SKDetectingImageView: UIImageView {
@@ -22,7 +22,7 @@ class SKDetectingImageView: UIImageView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        userInteractionEnabled = true
+        isUserInteractionEnabled = true
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap(_:)))
         doubleTap.numberOfTapsRequired = 2
         doubleTap.numberOfTouchesRequired = 1
@@ -30,15 +30,15 @@ class SKDetectingImageView: UIImageView {
         let singleTap = UITapGestureRecognizer(target: self, action: #selector(handleSingleTap(_:)))
         singleTap.numberOfTapsRequired = 1
         singleTap.numberOfTouchesRequired = 1
-        singleTap.requireGestureRecognizerToFail(doubleTap)
+        singleTap.require(toFail: doubleTap)
         self.addGestureRecognizer(singleTap)
     }
     
-    func handleDoubleTap(recognizer:UITapGestureRecognizer) {
-        delegate?.handleImageViewDoubleTap(recognizer.locationInView(self))
+    func handleDoubleTap(_ recognizer:UITapGestureRecognizer) {
+        delegate?.handleImageViewDoubleTap(recognizer.location(in: self))
     }
     
-    func handleSingleTap(recognizer:UITapGestureRecognizer) {
-        delegate?.handleImageViewSingleTap(recognizer.locationInView(self))
+    func handleSingleTap(_ recognizer:UITapGestureRecognizer) {
+        delegate?.handleImageViewSingleTap(recognizer.location(in: self))
     }
 }

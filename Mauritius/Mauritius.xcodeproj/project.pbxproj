@@ -34,7 +34,6 @@
 		42AA1A4E1C24667C004174CA /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 42AA1A4D1C24667C004174CA /* libsqlite3.tbd */; };
 		42AA1A581C272ECC004174CA /* UltravisualLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AA1A571C272ECC004174CA /* UltravisualLayout.swift */; };
 		42AA1A5A1C273051004174CA /* UIImage+Decompression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AA1A591C273051004174CA /* UIImage+Decompression.swift */; };
-		42AA1A5D1C27352F004174CA /* UIColor+Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AA1A5C1C27352F004174CA /* UIColor+Palette.swift */; };
 		42AA1A621C276BD3004174CA /* MenuTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AA1A601C276BD3004174CA /* MenuTableCell.swift */; };
 		42AA1A631C276BD3004174CA /* MenuTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42AA1A611C276BD3004174CA /* MenuTableCell.xib */; };
 		42AA1A661C277779004174CA /* RearViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AA1A641C277779004174CA /* RearViewController.swift */; };
@@ -94,7 +93,6 @@
 		42AA1A4F1C246821004174CA /* Mauritius-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Mauritius-Bridging-Header.h"; sourceTree = "<group>"; };
 		42AA1A571C272ECC004174CA /* UltravisualLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UltravisualLayout.swift; sourceTree = "<group>"; };
 		42AA1A591C273051004174CA /* UIImage+Decompression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Decompression.swift"; sourceTree = "<group>"; };
-		42AA1A5C1C27352F004174CA /* UIColor+Palette.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Palette.swift"; sourceTree = "<group>"; };
 		42AA1A601C276BD3004174CA /* MenuTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableCell.swift; sourceTree = "<group>"; };
 		42AA1A611C276BD3004174CA /* MenuTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MenuTableCell.xib; sourceTree = "<group>"; };
 		42AA1A641C277779004174CA /* RearViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RearViewController.swift; sourceTree = "<group>"; };
@@ -275,7 +273,6 @@
 			isa = PBXGroup;
 			children = (
 				42FA1C1F1C4AB9D70019C48A /* Reachability.swift */,
-				42AA1A5C1C27352F004174CA /* UIColor+Palette.swift */,
 				42AA1A591C273051004174CA /* UIImage+Decompression.swift */,
 			);
 			name = Others;
@@ -325,7 +322,9 @@
 				TargetAttributes = {
 					42AA1A211C239C21004174CA = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = YZWVEPE37A;
+						DevelopmentTeam = 7R8U9B2AP5;
+						DevelopmentTeamName = "Niranjan Ravichandran";
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -422,7 +421,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				42AA1A5D1C27352F004174CA /* UIColor+Palette.swift in Sources */,
 				42AA1A741C28A18E004174CA /* ImageCollectionCell.swift in Sources */,
 				4213E0581D20AFB900871FE1 /* FavsViewController.swift in Sources */,
 				4213E0611D28215500871FE1 /* SWRevealViewController.m in Sources */,
@@ -566,9 +564,10 @@
 				INFOPLIST_FILE = Mauritius/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.adavers.Mauritius;
+				PRODUCT_BUNDLE_IDENTIFIER = com.adavers.MauritiusDev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Mauritius/Mauritius-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -586,9 +585,10 @@
 				INFOPLIST_FILE = Mauritius/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.adavers.Mauritius;
+				PRODUCT_BUNDLE_IDENTIFIER = com.adavers.MauritiusDev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Mauritius/Mauritius-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

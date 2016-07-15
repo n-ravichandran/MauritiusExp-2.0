@@ -42,8 +42,8 @@ public class SKLocalPhoto: NSObject, SKPhotoProtocol {
         
         if photoURL != nil {
             // Fetch Image
-            if NSFileManager.defaultManager().fileExistsAtPath(photoURL) {
-                if let data = NSFileManager.defaultManager().contentsAtPath(photoURL) {
+            if FileManager.default().fileExists(atPath: photoURL) {
+                if let data = FileManager.default().contents(atPath: photoURL) {
                     self.loadUnderlyingImageComplete()
                     if let image = UIImage(data: data) {
                         self.underlyingImage = image
@@ -57,15 +57,15 @@ public class SKLocalPhoto: NSObject, SKPhotoProtocol {
     }
     
     public func loadUnderlyingImageComplete() {
-        NSNotificationCenter.defaultCenter().postNotificationName(SKPHOTO_LOADING_DID_END_NOTIFICATION, object: self)
+        NotificationCenter.default().post(name: Notification.Name(rawValue: SKPHOTO_LOADING_DID_END_NOTIFICATION), object: self)
     }
     
     // MARK: - class func
-    public class func photoWithImageURL(url: String) -> SKLocalPhoto {
+    public class func photoWithImageURL(_ url: String) -> SKLocalPhoto {
         return SKLocalPhoto(url: url)
     }
     
-    public class func photoWithImageURL(url: String, holder: UIImage?) -> SKLocalPhoto {
+    public class func photoWithImageURL(_ url: String, holder: UIImage?) -> SKLocalPhoto {
         return SKLocalPhoto(url: url, holder: holder)
     }
 }

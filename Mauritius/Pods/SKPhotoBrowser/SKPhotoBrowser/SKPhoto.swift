@@ -48,7 +48,7 @@ public class SKPhoto: NSObject, SKPhotoProtocol {
     public func checkCache() {
         if photoURL != nil && shouldCachePhotoURLImage {
             if SKCache.sharedCache.imageCache is SKRequestResponseCacheable {
-                let request = NSURLRequest(URL: NSURL(string: photoURL)!)
+                let request = URLRequest(url: URL(string: photoURL)!)
                 if let img = SKCache.sharedCache.imageForRequest(request) {
                     underlyingImage = img
                 }
@@ -68,14 +68,14 @@ public class SKPhoto: NSObject, SKPhotoProtocol {
         
         if photoURL != nil {
             // Fetch Image
-            let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
-            if let nsURL = NSURL(string: photoURL) {
-                var task: NSURLSessionDataTask!
-                task = session.dataTaskWithURL(nsURL, completionHandler: { [weak self](response: NSData?, data: NSURLResponse?, error: NSError?) in
+            let session = URLSession(configuration: URLSessionConfiguration.default())
+            if let nsURL = URL(string: photoURL) {
+                var task: URLSessionDataTask!
+                task = session.dataTask(with: nsURL, completionHandler: { [weak self](response: Data?, data: URLResponse?, error: NSError?) in
                     if let _self = self {
                         
                         if error != nil {
-                            dispatch_async(dispatch_get_main_queue()) {
+                            DispatchQueue.main.async {
                                 _self.loadUnderlyingImageComplete()
                             }
                         }
@@ -88,7 +88,7 @@ public class SKPhoto: NSObject, SKPhotoProtocol {
                                     SKCache.sharedCache.setImage(image, forKey: _self.photoURL)
                                 }
                             }
-                            dispatch_async(dispatch_get_main_queue()) {
+                            DispatchQueue.main.async {
                                 _self.underlyingImage = image
                                 _self.loadUnderlyingImageComplete()
                             }
@@ -102,19 +102,19 @@ public class SKPhoto: NSObject, SKPhotoProtocol {
     }
 
     public func loadUnderlyingImageComplete() {
-        NSNotificationCenter.defaultCenter().postNotificationName(SKPHOTO_LOADING_DID_END_NOTIFICATION, object: self)
+        NotificationCenter.default().post(name: Notification.Name(rawValue: SKPHOTO_LOADING_DID_END_NOTIFICATION), object: self)
     }
     
     // MARK: - class func
-    public class func photoWithImage(image: UIImage) -> SKPhoto {
+    public class func photoWithImage(_ image: UIImage) -> SKPhoto {
         return SKPhoto(image: image)
     }
     
-    public class func photoWithImageURL(url: String) -> SKPhoto {
+    public class func photoWithImageURL(_ url: String) -> SKPhoto {
         return SKPhoto(url: url)
     }
     
-    public class func photoWithImageURL(url: String, holder: UIImage?) -> SKPhoto {
+    public class func photoWithImageURL(_ url: String, holder: UIImage?) -> SKPhoto {
         return SKPhoto(url: url, holder: holder)
     }
 }

@@ -18,11 +18,11 @@ class RearViewController: UITableViewController {
         super.viewDidLoad()
 
         self.clearsSelectionOnViewWillAppear = false
-        self.navigationController?.navigationBarHidden = false
+        self.navigationController?.isNavigationBarHidden = false
         self.title = "Mauritius Explored"
-        self.tableView.separatorStyle = .None
+        self.tableView.separatorStyle = .none
         //Registering custom cell
-        self.tableView.registerNib(UINib(nibName: "MenuTableCell", bundle: nil), forCellReuseIdentifier: "MenuCell")
+        self.tableView.register(UINib(nibName: "MenuTableCell", bundle: nil), forCellReuseIdentifier: "MenuCell")
         
         self.getCategories()
     }
@@ -33,7 +33,7 @@ class RearViewController: UITableViewController {
         ParseFetcher.sharedInstance.fetchCategories([1, 2]) { (result, count1) -> Void in
             if result.count > 0 {
                 self.categories = result
-                self.levelOne = [Category](count: count1, repeatedValue: Category())
+                self.levelOne = [Category](repeating: Category(), count: count1)
                 
                 for item in self.categories! {
                     if item.level == 1 {
@@ -58,13 +58,13 @@ class RearViewController: UITableViewController {
             }
             //Reordering the level two menu based on position
             for (key, item) in self.levelTwo {
-                let sortedArray = item.sort({$0.position < $1.position})
+                let sortedArray = item.sorted(isOrderedBefore: {$0.position < $1.position})
                 self.levelTwo[key] = sortedArray
             }
             self.tableView.reloadData()
         }
         //Adding language change notification observer
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.languageChange), name: "languageChange", object: nil)
+        NotificationCenter.default().addObserver(self, selector: #selector(self.languageChange), name: "languageChange", object: nil)
     }
     
     func languageChange() {
@@ -78,12 +78,12 @@ class RearViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
 
         return levelOne.count
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if levelOne[section].isAvailable {
             if let objects = levelTwo[levelOne[section].objectId!]{
                 return objects.count
@@ -95,19 +95,19 @@ class RearViewController: UITableViewController {
         }
     }
     
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return levelOne[section].name
     }
     
-    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 50
     }
     
-    override func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         
         let header = view as! UITableViewHeaderFooterView
         header.contentView.backgroundColor = UIColor(red: 38/255, green: 40/255, blue: 43/255, alpha: 1.0)
-        header.textLabel?.textColor = UIColor.whiteColor()
+        header.textLabel?.textColor = UIColor.white()
         header.textLabel?.font = UIFont(name: "HelveticaNeue", size: (header.textLabel?.font?.pointSize)!)
         if header.textLabel?.text == "Favourites" {
             header.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(RearViewController.favouritesPage)))
@@ -116,52 +116,52 @@ class RearViewController: UITableViewController {
         }
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("MenuCell", forIndexPath: indexPath) as! MenuTableCell
-        let objects = levelTwo[levelOne[indexPath.section].objectId!]
-        cell.menuLabel.text = objects![indexPath.row].name
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MenuCell", for: indexPath) as! MenuTableCell
+        let objects = levelTwo[levelOne[(indexPath as NSIndexPath).section].objectId!]
+        cell.menuLabel.text = objects![(indexPath as NSIndexPath).row].name
         
         switch APP_DEFAULT_LANGUAGE {
-            case .English:
-                cell.menuLabel.text = objects![indexPath.row].name
-            case .Chinese:
-                cell.menuLabel.text = objects![indexPath.row].chinese
-            case .Italian:
-                cell.menuLabel.text = objects![indexPath.row].italian
-            case .German:
-                cell.menuLabel.text = objects![indexPath.row].german
-            case .French:
-                cell.menuLabel.text = objects![indexPath.row].french
+            case .english:
+                cell.menuLabel.text = objects![(indexPath as NSIndexPath).row].name
+            case .chinese:
+                cell.menuLabel.text = objects![(indexPath as NSIndexPath).row].chinese
+            case .italian:
+                cell.menuLabel.text = objects![(indexPath as NSIndexPath).row].italian
+            case .german:
+                cell.menuLabel.text = objects![(indexPath as NSIndexPath).row].german
+            case .french:
+                cell.menuLabel.text = objects![(indexPath as NSIndexPath).row].french
         }
         
-        if let iconName = objects![indexPath.row].iconName {
-            cell.menuIcon.image = UIImage(named: iconName)?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
-            cell.menuIcon.tintColor = UIColor.grayColor()
+        if let iconName = objects![(indexPath as NSIndexPath).row].iconName {
+            cell.menuIcon.image = UIImage(named: iconName)?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
+            cell.menuIcon.tintColor = UIColor.gray()
         }
         cell.backgroundColor = UIColor(red: 45/255, green: 47/255, blue: 50/255, alpha: 1.0)
 
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let selectedCell = tableView.cellForRowAtIndexPath(indexPath) as? MenuTableCell
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedCell = tableView.cellForRow(at: indexPath) as? MenuTableCell
         selectedCell?.backgroundColor = UIColor(red: 255/255, green: 66/255, blue: 70/255, alpha: 1.0)
-        selectedCell?.menuIcon.tintColor = UIColor.whiteColor()
+        selectedCell?.menuIcon.tintColor = UIColor.white()
         
         var newFrontViewController: UINavigationController?
         let mainVC = MainViewController()
-        if ((indexPath.section == 0) && (indexPath.row == 0)) {
+        if (((indexPath as NSIndexPath).section == 0) && ((indexPath as NSIndexPath).row == 0)) {
             mainVC.title = "Beaches"
             let frontVC = UINavigationController(rootViewController: mainVC)
             let rearVC = UINavigationController(rootViewController: Rear2ViewController())
             let childVC = SWRevealViewController(rearViewController: rearVC, frontViewController: frontVC)
-            childVC.rearViewRevealDisplacement = 20
-            childVC.setFrontViewPosition(FrontViewPosition.Right, animated: true)
+            childVC?.rearViewRevealDisplacement = 20
+            childVC?.setFrontViewPosition(FrontViewPosition.right, animated: true)
             revealViewController().pushFrontViewController(childVC, animated: true)
         }else {
-            if let objects = levelTwo[levelOne[indexPath.section].objectId!] {
-                mainVC.currentObjectId = objects[indexPath.row].objectId
-                mainVC.newTitle = objects[indexPath.row].name
+            if let objects = levelTwo[levelOne[(indexPath as NSIndexPath).section].objectId!] {
+                mainVC.currentObjectId = objects[(indexPath as NSIndexPath).row].objectId
+                mainVC.newTitle = objects[(indexPath as NSIndexPath).row].name
                 newFrontViewController = UINavigationController(rootViewController: mainVC)
                 revealViewController().pushFrontViewController(newFrontViewController, animated: true)
             }
@@ -169,10 +169,10 @@ class RearViewController: UITableViewController {
         
     }
     
-    override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-        let deselectedCell = tableView.cellForRowAtIndexPath(indexPath) as? MenuTableCell
+    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        let deselectedCell = tableView.cellForRow(at: indexPath) as? MenuTableCell
         deselectedCell?.backgroundColor = UIColor(red: 45/255, green: 47/255, blue: 50/255, alpha: 1.0)
-        deselectedCell?.menuIcon.tintColor = UIColor.grayColor()
+        deselectedCell?.menuIcon.tintColor = UIColor.gray()
     }
     
     override func shouldAutorotate() -> Bool {
@@ -180,7 +180,7 @@ class RearViewController: UITableViewController {
     }
     
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return [UIInterfaceOrientationMask.Portrait, .PortraitUpsideDown]
+        return [UIInterfaceOrientationMask.portrait, .portraitUpsideDown]
     }
     
     //Settings Page

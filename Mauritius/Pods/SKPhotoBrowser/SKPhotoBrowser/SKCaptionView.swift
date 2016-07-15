@@ -9,7 +9,7 @@
 import UIKit
 
 public class SKCaptionView: UIView {
-    final let screenBound = UIScreen.mainScreen().bounds
+    final let screenBound = UIScreen.main().bounds
     private var screenWidth: CGFloat { return screenBound.size.width }
     private var screenHeight: CGFloat { return screenBound.size.height }
     private var photo: SKPhotoProtocol!
@@ -27,43 +27,43 @@ public class SKCaptionView: UIView {
     }
     
     public convenience init(photo: SKPhotoProtocol) {
-        let screenBound = UIScreen.mainScreen().bounds
+        let screenBound = UIScreen.main().bounds
         self.init(frame: CGRect(x: 0, y: 0, width: screenBound.size.width, height: screenBound.size.height))
         self.photo = photo
         setup()
     }
     
     func setup() {
-        opaque = false
-        autoresizingMask = [.FlexibleWidth, .FlexibleTopMargin, .FlexibleRightMargin, .FlexibleLeftMargin]
+        isOpaque = false
+        autoresizingMask = [.flexibleWidth, .flexibleTopMargin, .flexibleRightMargin, .flexibleLeftMargin]
         
         // setup background first
-        fadeView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        fadeView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         addSubview(fadeView)
         
         // add layer at fadeView
-        gradientLayer.colors = [UIColor(white: 0.0, alpha: 0.0).CGColor, UIColor(white: 0.0, alpha: 0.8).CGColor]
-        fadeView.layer.insertSublayer(gradientLayer, atIndex: 0)
+        gradientLayer.colors = [UIColor(white: 0.0, alpha: 0.0).cgColor, UIColor(white: 0.0, alpha: 0.8).cgColor]
+        fadeView.layer.insertSublayer(gradientLayer, at: 0)
         
         photoLabel = UILabel(frame: CGRect(x: photoLabelPadding, y: 0,
             width: bounds.size.width - (photoLabelPadding * 2), height: bounds.size.height))
-        photoLabel.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
-        photoLabel.opaque = false
-        photoLabel.backgroundColor = .clearColor()
-        photoLabel.textColor = .whiteColor()
-        photoLabel.textAlignment = .Center
-        photoLabel.lineBreakMode = .ByTruncatingTail
+        photoLabel.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        photoLabel.isOpaque = false
+        photoLabel.backgroundColor = .clear()
+        photoLabel.textColor = .white()
+        photoLabel.textAlignment = .center
+        photoLabel.lineBreakMode = .byTruncatingTail
         photoLabel.numberOfLines = 3
         photoLabel.shadowColor = UIColor(white: 0.0, alpha: 0.5)
         photoLabel.shadowOffset = CGSize(width: 0.0, height: 1.0)
-        photoLabel.font = UIFont.systemFontOfSize(17.0)
+        photoLabel.font = UIFont.systemFont(ofSize: 17.0)
         if let cap = photo.caption {
             photoLabel.text = cap
         }
         addSubview(photoLabel)
     }
     
-    public override func sizeThatFits(size: CGSize) -> CGSize {
+    public override func sizeThatFits(_ size: CGSize) -> CGSize {
         guard let text = photoLabel.text else {
             return CGSize.zero
         }
@@ -75,9 +75,9 @@ public class SKCaptionView: UIView {
         let width: CGFloat = size.width - (photoLabelPadding * 2)
         let height: CGFloat = photoLabel.font.lineHeight * CGFloat(photoLabel.numberOfLines)
         
-        let attributedText = NSAttributedString(string: text, attributes: [NSFontAttributeName: font])
-        let textSize = attributedText.boundingRectWithSize(CGSize(width: width, height: height),
-            options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil).size
+        let attributedText = AttributedString(string: text, attributes: [NSFontAttributeName: font])
+        let textSize = attributedText.boundingRect(with: CGSize(width: width, height: height),
+            options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil).size
         
         return CGSize(width: textSize.width, height: textSize.height + photoLabelPadding * 2)
     }

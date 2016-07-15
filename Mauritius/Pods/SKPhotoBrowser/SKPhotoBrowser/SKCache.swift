@@ -17,19 +17,19 @@ public class SKCache {
         self.imageCache = SKDefaultImageCache()
     }
 
-    public func imageForKey(key: String) -> UIImage? {
+    public func imageForKey(_ key: String) -> UIImage? {
         return (self.imageCache as! SKImageCacheable).imageForKey(key)
     }
 
-    public func setImage(image: UIImage, forKey key: String) {
+    public func setImage(_ image: UIImage, forKey key: String) {
         (self.imageCache as! SKImageCacheable).setImage(image, forKey: key)
     }
 
-    public func removeImageForKey(key: String) {
+    public func removeImageForKey(_ key: String) {
         (self.imageCache as! SKImageCacheable).removeImageForKey(key)
     }
 
-    public func imageForRequest(request: NSURLRequest) -> UIImage? {
+    public func imageForRequest(_ request: URLRequest) -> UIImage? {
         if let response = (self.imageCache as! SKRequestResponseCacheable).cachedResponseForRequest(request) {
             let data = response.data
 
@@ -39,28 +39,28 @@ public class SKCache {
         return nil
     }
 
-    public func setImageData(data: NSData, response: NSURLResponse, request: NSURLRequest) {
-        let cachedResponse = NSCachedURLResponse(response: response, data: data)
+    public func setImageData(_ data: Data, response: URLResponse, request: URLRequest) {
+        let cachedResponse = CachedURLResponse(response: response, data: data)
         (self.imageCache as! SKRequestResponseCacheable).storeCachedResponse(cachedResponse, forRequest: request)
     }
 }
 
 class SKDefaultImageCache: SKImageCacheable {
-    var cache: NSCache
+    var cache: Cache<AnyObject, AnyObject>
 
     init() {
-        self.cache = NSCache()
+        self.cache = Cache()
     }
 
-    func imageForKey(key: String) -> UIImage? {
-        return self.cache.objectForKey(key) as? UIImage
+    func imageForKey(_ key: String) -> UIImage? {
+        return self.cache.object(forKey: key) as? UIImage
     }
 
-    func setImage(image: UIImage, forKey key: String) {
+    func setImage(_ image: UIImage, forKey key: String) {
         self.cache.setObject(image, forKey: key)
     }
 
-    func removeImageForKey(key: String) {
-        self.cache.removeObjectForKey(key)
+    func removeImageForKey(_ key: String) {
+        self.cache.removeObject(forKey: key)
     }
 }

@@ -2,44 +2,27 @@
 //  AppDelegate.swift
 //  Mauritius
 //
-//  Created by Niranjan Ravichandran on 17/12/15.
-//  Copyright © 2015 adavers. All rights reserved.
+//  Created by Niranjan Ravichandran on 11/21/17.
+//  Copyright © 2017 Aviato. All rights reserved.
 //
 
 import UIKit
-import Parse
-
-var APP_DEFAULT_LANGUAGE: Language = .english //Lanaguage for app
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var viewController: UIViewController?
-    
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        // Override point for customization after application launch.
-        UINavigationBar.appearance().barStyle = .black
-        UINavigationBar.appearance().tintColor = UIColor.white()
-        
-        //Parse Connection
-        Parse.setApplicationId("PMipl2gmbDK4b1UTaBBb9XTU8VADHnpPtiZxoVEo",
-            clientKey: "12DLcXOAgsqNZLn6lp7oYwKsSoqWPNdi3WjDJ6T2")
-        
-        self.window = UIWindow(frame: UIScreen.main().bounds)
-        
-        let mainVC = MainViewController()
-        let rearVC = RearViewController()
-        
-        let frontNavController = UINavigationController(rootViewController: mainVC)
-        let rearNavController = UINavigationController(rootViewController: rearVC)
-        
-        let revealVC: SWRevealViewController = SWRevealViewController(rearViewController: rearNavController, frontViewController: frontNavController)
-        self.viewController = revealVC
-        
-        self.window?.rootViewController = self.viewController
+        self.window = UIWindow(frame: UIScreen.main.bounds)
+        self.window?.rootViewController = SlideMenuController(mainViewController: UINavigationController(rootViewController: MainViewController()), leftMenuViewController: MenuViewController())
         self.window?.makeKeyAndVisible()
+        UserManager.shared.loadUser()
+        
+        UINavigationBar.appearance().tintColor = UIColor.mblack
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.mblack]
         
         
         return true
@@ -47,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
@@ -56,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
